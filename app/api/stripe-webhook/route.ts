@@ -3,7 +3,7 @@ import Stripe from "stripe";
 import { supabase, cancelQueuedEmails } from "../../../lib/resend";
 import { createProvisioningJob } from "../../../lib/provisioning";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", { apiVersion: "2026-03-25.dahlia" });
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "sk_build_placeholder", { apiVersion: "2026-03-25.dahlia" });
 
 export async function POST(req: NextRequest) {
   const sig = req.headers.get("stripe-signature");

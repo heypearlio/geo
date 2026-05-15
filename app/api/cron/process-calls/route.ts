@@ -3,8 +3,8 @@ import OpenAI from "openai";
 import { enqueueSequence, cancelQueuedEmails, supabase } from "../../../../lib/resend";
 
 const FIREFLIES_API = "https://api.fireflies.ai/graphql";
-const FIREFLIES_KEY = process.env.FIREFLIES_API_KEY!;
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
+const FIREFLIES_KEY = process.env.FIREFLIES_API_KEY ?? "";
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY ?? "sk-build-placeholder" });
 
 function isAuthed(req: NextRequest) {
   return req.headers.get("authorization") === `Bearer ${process.env.CRON_SECRET}`;

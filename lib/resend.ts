@@ -5,7 +5,8 @@ import { snapToBusinessHours } from "./schedule";
 import { SEQUENCE_DELAYS, SequenceKey } from "./sequences";
 import { INSTANT_EMAILS, ALWAYS_RESEND } from "./email-config";
 
-export const resend = new Resend(process.env.RESEND_API_KEY);
+// Resend throws if the key is missing; provide a placeholder so `next build` can prerender without env.
+export const resend = new Resend(process.env.RESEND_API_KEY ?? "re_build_noop");
 export const GEO_AUDIENCE_ID = "10621e8a-9834-4c07-b8a8-686d071c8693";
 export const REPLY_TO = process.env.EMAIL_REPLY_TO ?? "geo@heypearl.io";
 
@@ -28,9 +29,10 @@ export function pickFrom(recipientEmail: string): string {
   return process.env.EMAIL_FROM ?? "Misti Bruton <misti@geo.heypearl.io>";
 }
 
+// Build-time fallbacks so modules that import this can load during `next build` without .env.
 export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://build-placeholder.supabase.co",
+  process.env.SUPABASE_SERVICE_ROLE_KEY ?? "build_placeholder_service_role"
 );
 
 // Delay arrays imported from lib/sequences.ts — the single source of truth.

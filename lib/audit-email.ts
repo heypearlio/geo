@@ -2,7 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { emailWrapper, btn, sig, h1, p } from "./emails/base";
 import { supabase } from "./resend";
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? "sk-ant-build-placeholder" });
 
 export interface AuditEmailParams {
   firstName: string;
