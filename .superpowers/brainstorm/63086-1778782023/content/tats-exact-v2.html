@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEO Free Workshop — heypearl.io/workshop</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Montserrat', 'Arial Black', Arial, sans-serif;
+    background: #0F1E3A;
+    color: white;
+  }
+
+  /* ── STICKY NAV ── */
+  .nav {
+    background: #0F1E3A;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(232,24,92,0.25);
+  }
+  .nav-logo { color: white; font-size: 18px; font-weight: 900; letter-spacing: 1px; }
+  .nav-logo em { color: #E8185C; font-style: normal; }
+  .nav-cta {
+    background: #E8185C; color: white;
+    font-size: 11px; font-weight: 800;
+    padding: 8px 18px; border-radius: 100px;
+    text-transform: uppercase; letter-spacing: 0.8px; cursor: pointer;
+  }
+
+  /* ── SECTION 1: TOP HERO — CTA FIRST ── */
+  /* TATS structure: logo/title → "Sign Up Below" → big CTA button → date → countdown → headline → photo → time zones */
+  .top-section {
+    background: #0F1E3A;
+    text-align: center;
+    padding: 44px 24px 0;
+  }
+  .top-section .page-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 6px;
+  }
+  .top-section .page-title em { color: #E8185C; font-style: normal; }
+  .top-section h2 {
+    font-size: clamp(28px, 4.5vw, 44px);
+    font-weight: 900;
+    color: white;
+    line-height: 1.1;
+    max-width: 700px;
+    margin: 0 auto 14px;
+  }
+  .top-section h2 em { color: #E8185C; font-style: normal; }
+  .top-section .sub {
+    color: rgba(255,255,255,0.6);
+    font-size: 15px;
+    font-weight: 500;
+    max-width: 520px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+  }
+
+  /* Sign Up Below label */
+  .signup-label {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 14px;
+    text-align: center;
+  }
+
+  /* Primary CTA */
+  .btn-primary {
+    display: inline-block;
+    background: #E8185C;
+    color: white;
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: 900;
+    padding: 20px 48px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    box-shadow: 0 8px 40px rgba(232,24,92,0.55);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .btn-primary small {
+    display: block; font-size: 11px; font-weight: 600;
+    opacity: 0.8; margin-top: 4px; text-transform: none; letter-spacing: 0.3px;
+  }
+  .btn-secondary {
+    display: inline-block;
+    background: transparent; color: rgba(255,255,255,0.65);
+    font-size: 13px; font-weight: 600;
+    padding: 10px 28px; border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.2);
+    cursor: pointer; margin-top: 6px;
+  }
+
+  /* ── DATE BANNER ── */
+  .date-banner {
+    background: rgba(232,24,92,0.12);
+    border: 1px solid rgba(232,24,92,0.3);
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    margin: 28px 24px 0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .date-banner em { color: #E8185C; font-style: normal; }
+
+  /* ── COUNTDOWN ── */
+  .countdown-wrap {
+    background: #0a1628;
+    padding: 30px 24px;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .cd-label {
+    color: rgba(255,255,255,0.4);
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2.5px;
+    margin-bottom: 16px;
+  }
+  .cd-row {
+    display: flex; justify-content: center;
+    align-items: center; gap: 8px;
+  }
+  .cd-box {
+    background: #1a2d50;
+    border: 1px solid rgba(232,24,92,0.2);
+    border-radius: 8px; width: 76px;
+    padding: 14px 4px 10px; text-align: center;
+  }
+  .cd-num {
+    color: white; font-size: 32px; font-weight: 900;
+    line-height: 1; font-variant-numeric: tabular-nums;
+  }
+  .cd-unit {
+    color: rgba(255,255,255,0.3); font-size: 9px;
+    font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.5px; margin-top: 7px;
+  }
+  .cd-sep {
+    color: rgba(255,255,255,0.2); font-size: 30px;
+    font-weight: 900; padding-bottom: 16px;
+  }
+
+  /* ── HEADLINE ── */
+  .headline-section {
+    background: #0F1E3A;
+    padding: 48px 24px 36px;
+    text-align: center;
+  }
+  .headline-section h1 {
+    font-size: clamp(26px, 4.5vw, 40px);
+    font-weight: 900; color: white;
+    line-height: 1.12; max-width: 720px;
+    margin: 0 auto 14px;
+  }
+  .headline-section h1 em { color: #E8185C; font-style: normal; }
+  .headline-section .tagline {
+    color: rgba(255,255,255,0.55); font-size: 15px;
+    font-weight: 500; max-width: 540px;
+    margin: 0 auto 32px; line-height: 1.6;
+  }
+
+  /* Speaker photo */
+  .photo-frame {
+    max-width: 680px; margin: 0 auto;
+    border-radius: 12px; overflow: hidden;
+    border: 2px solid rgba(232,24,92,0.35);
+    box-shadow: 0 16px 70px rgba(0,0,0,0.6);
+    position: relative;
+  }
+  .photo-frame img {
+    width: 100%; display: block;
+    max-height: 420px; object-fit: cover;
+    object-position: top center;
+  }
+  .photo-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(10,22,40,0.95));
+    padding: 30px 20px 18px; text-align: left;
+  }
+  .photo-caption .name { font-size: 18px; font-weight: 900; color: white; }
+  .photo-caption .role { font-size: 11px; font-weight: 700; color: #E8185C; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 3px; }
+
+  /* Time zones */
+  .tz-bar {
+    display: flex; justify-content: center;
+    flex-wrap: wrap; gap: 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    background: #0a1628; padding: 14px 24px;
+  }
+  .tz {
+    color: rgba(255,255,255,0.65); font-size: 13px;
+    font-weight: 600; padding: 4px 16px;
+    border-right: 1px solid rgba(255,255,255,0.12);
+  }
+  .tz:last-child { border-right: none; }
+  .tz strong { color: white; font-weight: 800; }
+
+  /* ── CONTENT PILLARS ── */
+  .pillars-section {
+    background: #EDF0FA;
+    padding: 56px 24px;
+    text-align: center;
+  }
+  .section-eyebrow {
+    display: inline-block;
+    background: rgba(232,24,92,0.1);
+    color: #E8185C; font-size: 11px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 2.5px;
+    padding: 6px 16px; border-radius: 100px; margin-bottom: 16px;
+  }
+  .pillars-section h2 {
+    font-size: clamp(22px, 3.5vw, 30px);
+    font-weight: 900; color: #0F1E3A;
+    max-width: 640px; margin: 0 auto 8px; line-height: 1.2;
+  }
+  .pillars-section .sub {
+    color: #64748b; font-size: 14px; font-weight: 500;
+    margin-bottom: 36px; line-height: 1.5;
+  }
+  .pillars-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 14px; max-width: 740px; margin: 0 auto;
+  }
+  @media(max-width:560px){ .pillars-grid { grid-template-columns: 1fr; } }
+  .pillar-card {
+    background: white; border-radius: 10px;
+    padding: 18px 20px; border-left: 4px solid #E8185C;
+    display: flex; gap: 14px; align-items: flex-start;
+    box-shadow: 0 2px 10px rgba(15,30,58,0.08); text-align: left;
+  }
+  .pillar-card .pi { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+  .pillar-card strong { display: block; font-size: 14px; font-weight: 800; color: #0F1E3A; line-height: 1.3; margin-bottom: 4px; }
+  .pillar-card span { font-size: 12px; color: #64748b; font-weight: 500; line-height: 1.45; }
+
+  /* ── BONUSES ── */
+  .bonuses-section {
+    background: #0F1E3A; padding: 56px 24px; text-align: center;
+  }
+  .bonuses-section h2 { font-size: clamp(22px,3.5vw,30px); font-weight: 900; color: white; margin-bottom: 8px; }
+  .bonuses-section .sub { color: rgba(255,255,255,0.45); font-size: 14px; margin-bottom: 32px; }
+  .bonus-list { list-style: none; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+  .bonus-card {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(232,24,92,0.18);
+    border-radius: 10px; padding: 16px 20px;
+    display: flex; align-items: center; gap: 16px; text-align: left;
+  }
+  .bonus-num {
+    background: #E8185C; color: white; font-size: 13px; font-weight: 900;
+    min-width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .bonus-card strong { color: white; font-size: 14px; font-weight: 800; display: block; margin-bottom: 2px; }
+  .bonus-card span { color: rgba(255,255,255,0.45); font-size: 12px; font-weight: 500; }
+
+  /* ── SEAT LIMIT ── */
+  .seats-section {
+    background: #0a1628; padding: 34px 24px;
+    text-align: center;
+    border-top: 3px solid #E8185C;
+    border-bottom: 3px solid #E8185C;
+  }
+  .seats-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(232,24,92,0.1); border: 1px solid rgba(232,24,92,0.35);
+    color: #E8185C; font-size: 14px; font-weight: 900;
+    padding: 10px 24px; border-radius: 6px;
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;
+  }
+  .seats-section p { color: rgba(255,255,255,0.5); font-size: 13px; font-weight: 500; max-width: 440px; margin: 0 auto; line-height: 1.6; }
+
+  /* ── BOTTOM CTA ── */
+  .bottom-section {
+    background: #EDF0FA; padding: 60px 24px; text-align: center;
+  }
+  .bottom-section h2 { font-size: clamp(22px,3.5vw,30px); font-weight: 900; color: #0F1E3A; margin-bottom: 12px; line-height: 1.2; }
+  .bottom-section p { color: #64748b; font-size: 14px; margin-bottom: 28px; }
+
+  /* ── DISCLAIMER ── */
+  .disclaimer {
+    background: #060d1c; padding: 24px;
+    text-align: center;
+  }
+  .disclaimer p { color: rgba(255,255,255,0.22); font-size: 11px; line-height: 1.75; max-width: 580px; margin: 0 auto 6px; }
+  .disclaimer a { color: rgba(255,255,255,0.35); text-decoration: underline; }
+
+  .tc { text-align: center; }
+  .page-label {
+    background: rgba(0,0,0,0.5); color: rgba(255,255,255,0.6);
+    font-size: 10px; font-family: monospace; padding: 3px 8px;
+    border-radius: 4px; display: inline-block; margin-bottom: 6px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ① NAV -->
+<div class="nav">
+  <div class="nav-logo">Hey<em>Pearl</em></div>
+  <div class="nav-cta">RSVP Free →</div>
+</div>
+
+<!-- ② TOP SECTION: eyebrow + "Sign Up Below" + CTA button FIRST -->
+<div class="top-section tc">
+  <div class="page-label">Section 1 · Above the fold</div>
+  <div class="page-title">Hey<em>Pearl</em> · Free Live Training</div>
+
+  <br/>
+  <div class="signup-label">↓ Sign Up Below ↓</div>
+  <div class="btn-primary">
+    RSVP FREE + GET YOUR AI SCORE INSTANTLY
+    <small>100% Free · Live Only · No Replay Will Be Sent</small>
+  </div>
+  <br/>
+  <div class="btn-secondary">Yes — Show Me The System</div>
+</div>
+
+<!-- ③ DATE BANNER -->
+<div style="padding: 0 24px; background: #0F1E3A;">
+  <div class="date-banner">
+    🗓 <em>FREE LIVE WORKSHOP</em> · Every Thursday · 12pm PT / 1pm MT / 2pm CT / 3pm ET
+  </div>
+</div>
+
+<!-- ④ COUNTDOWN -->
+<div class="countdown-wrap">
+  <div class="cd-label">Next training starts in</div>
+  <div class="cd-row">
+    <div class="cd-box"><div class="cd-num" id="d">06</div><div class="cd-unit">Days</div></div>
+    <div class="cd-sep">:</div>
+    <div class="cd-box"><div class="cd-num" id="h">14</div><div class="cd-unit">Hours</div></div>
+    <div class="cd-sep">:</div>
+    <div class="cd-box"><div class="cd-num" id="m">38</div><div class="cd-unit">Mins</div></div>
+    <div class="cd-sep">:</div>
+    <div class="cd-box"><div class="cd-num" id="s">52</div><div class="cd-unit">Secs</div></div>
+  </div>
+</div>
+
+<!-- ⑤ HEADLINE + PHOTO + TIME ZONES -->
+<div class="headline-section tc">
+  <div class="page-label">Section 2 · Headline</div>
+
+  <h1>Clone The Exact System I'm Using to<br/><em>Get AI to Recommend You</em><br/>and Generate Buyer Leads On Autopilot</h1>
+
+  <p class="tagline">
+    How real estate agents in competitive markets are becoming the #1 AI-recommended agent — getting found by ChatGPT, Google AI, and Perplexity — without spending a dollar on ads.
+  </p>
+
+  <div class="photo-frame">
+    <img src="speaker.png" alt="Free AI Visibility Masterclass for Real Estate Agents" />
+    <div class="photo-caption">
+      <div class="name">Misti Bruton</div>
+      <div class="role">Founder, HeyPearl · AI Visibility Strategist</div>
+    </div>
+  </div>
+</div>
+
+<!-- TIME ZONES -->
+<div class="tz-bar">
+  <div class="tz"><strong>12pm</strong> Pacific</div>
+  <div class="tz"><strong>1pm</strong> Mountain</div>
+  <div class="tz"><strong>2pm</strong> Central</div>
+  <div class="tz"><strong>3pm</strong> Eastern</div>
+</div>
+
+<!-- ⑥ CONTENT PILLARS "What You're Going to See" -->
+<div class="pillars-section tc">
+  <div class="page-label" style="background:rgba(15,30,58,0.08);color:#0F1E3A;">Section 3 · Content Pillars</div>
+  <div class="section-eyebrow">What You're Going To See</div>
+  <h2>6 Things This Free Workshop Will Show You</h2>
+  <p class="sub">Every minute is packed. No pitch. Just the exact system.</p>
+
+  <div class="pillars-grid">
+    <div class="pillar-card">
+      <div class="pi">🤖</div>
+      <div>
+        <strong>Why AI is replacing Google — and what it means for your leads</strong>
+        <span>ChatGPT, Perplexity, and Google AI are where buyers now find agents. Most agents are completely invisible here.</span>
+      </div>
+    </div>
+    <div class="pillar-card">
+      <div class="pi">📍</div>
+      <div>
+        <strong>How to show up when buyers ask "who's the best agent in [your city]?"</strong>
+        <span>The 4 exact signals AI uses to decide who to recommend — and how to hit all 4 in your market.</span>
+      </div>
+    </div>
+    <div class="pillar-card">
+      <div class="pi">🏆</div>
+      <div>
+        <strong>How to lock down your market before a competitor does</strong>
+        <span>AI can only recommend one agent per search. We'll show you how to become that agent in your zip code.</span>
+      </div>
+    </div>
+    <div class="pillar-card">
+      <div class="pi">📊</div>
+      <div>
+        <strong>Your live AI Visibility Score — pulled on the call</strong>
+        <span>We run a real audit during the workshop. You'll see exactly where you stand right now, live on screen.</span>
+      </div>
+    </div>
+    <div class="pillar-card">
+      <div class="pi">⚡</div>
+      <div>
+        <strong>The done-for-you GEO system that builds your AI presence</strong>
+        <span>Content, citations, Google Business Profile, AI signals — all done for you. Your only job: 30-second weekly approval.</span>
+      </div>
+    </div>
+    <div class="pillar-card">
+      <div class="pi">💰</div>
+      <div>
+        <strong>Real agent results from real markets</strong>
+        <span>See exactly what happened when agents ran the GEO system — and how fast they became the AI-recommended agent.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑦ BONUSES -->
+<div class="bonuses-section tc">
+  <div class="page-label">Section 4 · Bonuses</div>
+  <div class="section-eyebrow" style="background:rgba(232,24,92,0.15);">Register Today and Also Get</div>
+  <h2>5 Free Bonuses — Delivered Instantly When You Sign Up</h2>
+  <p class="sub">All 5 yours the moment you register.</p>
+
+  <ul class="bonus-list">
+    <li class="bonus-card">
+      <div class="bonus-num">1</div>
+      <div>
+        <strong>Your Free AI Visibility Score Report</strong>
+        <span>See how AI ranks you right now in your market. Instant, personalized, real data.</span>
+      </div>
+    </li>
+    <li class="bonus-card">
+      <div class="bonus-num">2</div>
+      <div>
+        <strong>The AI Visibility Checklist PDF</strong>
+        <span>22 things every agent needs to show up in AI search results. Free.</span>
+      </div>
+    </li>
+    <li class="bonus-card">
+      <div class="bonus-num">3</div>
+      <div>
+        <strong>Market Availability Check</strong>
+        <span>Find out instantly if your zip code is still available — or already locked by a competitor.</span>
+      </div>
+    </li>
+    <li class="bonus-card">
+      <div class="bonus-num">4</div>
+      <div>
+        <strong>The "Show Up First" Swipe File</strong>
+        <span>Copy-paste content that trains AI tools to recommend you over every other agent in your area.</span>
+      </div>
+    </li>
+    <li class="bonus-card">
+      <div class="bonus-num">5</div>
+      <div>
+        <strong>Live Market Audit During the Workshop</strong>
+        <span>We pull your actual results live on the call. No guessing. Real numbers, your market.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- ⑧ SEAT LIMIT -->
+<div class="seats-section">
+  <div class="page-label">Section 5 · Scarcity</div>
+  <div class="seats-badge">⚠️ Maximum Limit of 200 Seats</div>
+  <p>This is a live-only training. No replay will be sent afterward.<br/>Once seats fill up, registration closes. Don't wait.</p>
+</div>
+
+<!-- ⑨ BOTTOM CTA -->
+<div class="bottom-section tc">
+  <div class="page-label" style="background:rgba(15,30,58,0.08);color:#0F1E3A;">Section 6 · Final CTA</div>
+  <h2>Ready to Become the AI-Recommended<br/>Agent in Your Market?</h2>
+  <p>Register below — it's 100% free. Just show up live.</p>
+  <div class="btn-primary" style="font-size:17px;">
+    YES — SAVE MY FREE SEAT NOW →
+    <small>Live Training · No Replay · Limited Seats</small>
+  </div>
+</div>
+
+<!-- ⑩ DISCLAIMER -->
+<div class="disclaimer">
+  <p>Results are not typical. Individual results will vary based on your market, current online presence, and effort. This is a live training — no replay will be made available. By registering you agree to receive communications from HeyPearl and may unsubscribe at any time.</p>
+  <p><a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms of Service</a></p>
+</div>
+
+<script>
+  // Rolling countdown — targets next Thursday 12pm PT (evergreen)
+  function getNextThursday() {
+    const now = new Date();
+    const pt = new Date(now.toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));
+    const day = pt.getDay(); // 0=Sun, 4=Thu
+    let daysUntil = (4 - day + 7) % 7;
+    if (daysUntil === 0 && pt.getHours() >= 12) daysUntil = 7;
+    const target = new Date(pt);
+    target.setDate(pt.getDate() + daysUntil);
+    target.setHours(12, 0, 0, 0);
+    return target;
+  }
+  const end = getNextThursday();
+  function tick() {
+    const diff = Math.max(0, end - new Date());
+    document.getElementById('d').textContent = String(Math.floor(diff/86400000)).padStart(2,'0');
+    document.getElementById('h').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+    document.getElementById('m').textContent = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    document.getElementById('s').textContent = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  }
+  tick(); setInterval(tick,1000);
+</script>
+</body>
+</html>

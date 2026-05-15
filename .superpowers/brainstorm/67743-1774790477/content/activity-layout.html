@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a1628; color: #F7F8FC; min-height: 100vh; }
+
+  .page-title { font-size: 13px; color: #9BACC0; padding: 20px 28px 0; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+  .section { padding: 0 28px 24px; }
+  .section-label { font-size: 11px; color: #4A5E7A; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; font-weight: 500; }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .stat-card { background: #1a2d4a; border: 1px solid #2a3f5f; border-radius: 10px; padding: 18px 20px; }
+  .stat-card.clickable { cursor: pointer; border-color: #E8185C44; }
+  .stat-card.clickable:hover { border-color: #E8185C; }
+  .stat-card .badge { display: inline-block; font-size: 9px; background: #E8185C22; color: #E8185C; border-radius: 4px; padding: 2px 6px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat-card .label { font-size: 11px; color: #9BACC0; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .stat-card .value { font-size: 32px; font-weight: 800; line-height: 1; }
+  .stat-card .sub { font-size: 11px; color: #4A5E7A; margin-top: 5px; }
+  .stat-card.clickable .sub { color: #E8185C99; }
+
+  .source-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .source-card { background: #1a2d4a; border: 1px solid #2a3f5f; border-radius: 8px; padding: 14px 16px; }
+  .source-card .src-name { font-size: 12px; color: #F7F8FC; font-weight: 600; margin-bottom: 8px; }
+  .source-card .src-stats { display: flex; gap: 16px; }
+  .source-card .src-stat { }
+  .source-card .src-stat .n { font-size: 20px; font-weight: 800; line-height: 1; }
+  .source-card .src-stat .l { font-size: 10px; color: #4A5E7A; margin-top: 2px; }
+
+  .appt-table { background: #1a2d4a; border: 1px solid #2a3f5f; border-radius: 10px; overflow: hidden; }
+  .appt-row { display: grid; grid-template-columns: 1fr 100px 110px 140px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #1e3354; font-size: 12px; }
+  .appt-row.header { padding: 9px 16px; background: #152438; }
+  .appt-row.header span { font-size: 11px; color: #4A5E7A; font-weight: 400; }
+  .appt-row .name { font-weight: 600; color: #F7F8FC; }
+  .appt-row .email { font-size: 11px; color: #4A5E7A; }
+  .badge-show { background: #16a34a22; color: #22C55E; border: 1px solid #22C55E44; border-radius: 5px; padding: 3px 8px; font-size: 11px; font-weight: 600; display: inline-block; }
+  .badge-noshow { background: #ef444422; color: #EF4444; border: 1px solid #ef444444; border-radius: 5px; padding: 3px 8px; font-size: 11px; font-weight: 600; display: inline-block; }
+  .badge-pending { background: #fbbf2422; color: #FBBF24; border: 1px solid #fbbf2444; border-radius: 5px; padding: 3px 8px; font-size: 11px; font-weight: 600; display: inline-block; }
+
+  .hot-table { background: #1a2d4a; border: 1px solid #2a3f5f; border-radius: 10px; overflow: hidden; }
+  .hot-row { display: grid; grid-template-columns: 1fr 80px 100px 1fr; align-items: center; padding: 12px 16px; border-bottom: 1px solid #1e3354; font-size: 12px; }
+  .hot-row.header { padding: 9px 16px; background: #152438; }
+  .hot-row.header span { font-size: 11px; color: #4A5E7A; }
+
+  .health-bar { background: #1a2d4a; border: 1px solid #2a3f5f; border-radius: 10px; padding: 14px 20px; display: flex; gap: 24px; align-items: center; font-size: 13px; flex-wrap: wrap; }
+
+  .removed-note { background: #1e1a0a; border: 1px solid #fbbf2433; border-radius: 8px; padding: 10px 14px; font-size: 11px; color: #FBBF24; display: flex; align-items: center; gap: 8px; }
+
+  .nav { background: #0d1e36; border-bottom: 1px solid #1e3354; height: 50px; display: flex; align-items: center; padding: 0 24px; gap: 4px; }
+  .nav-brand { color: #E8185C; font-weight: 800; font-size: 15px; margin-right: 32px; letter-spacing: -0.02em; }
+  .nav-link { color: #9BACC0; font-size: 13px; padding: 5px 12px; border-radius: 6px; border-bottom: 2px solid transparent; }
+  .nav-link.active { color: #F7F8FC; font-weight: 700; background: #1a2d4a; border-bottom-color: #E8185C; }
+
+  .top-gap { height: 20px; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <span class="nav-brand">GEO Admin</span>
+  <span class="nav-link active">Activity</span>
+  <span class="nav-link">Leads</span>
+  <span class="nav-link">Campaigns</span>
+  <span class="nav-link">Calls</span>
+</div>
+
+<div class="top-gap"></div>
+
+<!-- STAT CARDS -->
+<div class="section">
+  <div class="section-label">Today</div>
+  <div class="stat-grid">
+    <div class="stat-card clickable">
+      <div class="badge">↗ Leads</div>
+      <div class="label">New Leads</div>
+      <div class="value" style="color:#E8185C">3</div>
+      <div class="sub">Click to view →</div>
+    </div>
+    <div class="stat-card clickable">
+      <div class="badge">↗ Emails</div>
+      <div class="label">Emails Sent</div>
+      <div class="value">12</div>
+      <div class="sub">Click to view →</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Open Rate</div>
+      <div class="value" style="color:#22C55E">47%</div>
+      <div class="sub">30-day unique — Excellent ✓</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Needs Action</div>
+      <div class="value" style="color:#22C55E; font-size:22px; padding-top:6px">All clear ✓</div>
+      <div class="sub" style="margin-top:8px">No pending outcomes</div>
+    </div>
+  </div>
+</div>
+
+<!-- SOURCE ATTRIBUTION — moved to top -->
+<div class="section">
+  <div class="section-label">Source Attribution — Last 30 Days</div>
+  <div class="source-grid">
+    <div class="source-card">
+      <div class="src-name">Audit (/score)</div>
+      <div class="src-stats">
+        <div class="src-stat"><div class="n" style="color:#F7F8FC">24</div><div class="l">leads</div></div>
+        <div class="src-stat"><div class="n" style="color:#22C55E">4</div><div class="l">booked</div></div>
+        <div class="src-stat"><div class="n" style="color:#FBBF24">17%</div><div class="l">conv.</div></div>
+      </div>
+    </div>
+    <div class="source-card">
+      <div class="src-name">Claim Form</div>
+      <div class="src-stats">
+        <div class="src-stat"><div class="n" style="color:#F7F8FC">5</div><div class="l">leads</div></div>
+        <div class="src-stat"><div class="n" style="color:#22C55E">1</div><div class="l">booked</div></div>
+        <div class="src-stat"><div class="n" style="color:#FBBF24">20%</div><div class="l">conv.</div></div>
+      </div>
+    </div>
+    <div class="source-card">
+      <div class="src-name">Calendly</div>
+      <div class="src-stats">
+        <div class="src-stat"><div class="n" style="color:#F7F8FC">5</div><div class="l">leads</div></div>
+        <div class="src-stat"><div class="n" style="color:#22C55E">5</div><div class="l">booked</div></div>
+        <div class="src-stat"><div class="n" style="color:#22C55E">100%</div><div class="l">conv.</div></div>
+      </div>
+    </div>
+    <div class="source-card">
+      <div class="src-name">Import</div>
+      <div class="src-stats">
+        <div class="src-stat"><div class="n" style="color:#F7F8FC">8</div><div class="l">leads</div></div>
+        <div class="src-stat"><div class="n" style="color:#22C55E">0</div><div class="l">booked</div></div>
+        <div class="src-stat"><div class="n" style="color:#9BACC0">0%</div><div class="l">conv.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RECENT APPOINTMENTS — new section -->
+<div class="section">
+  <div class="section-label">Recent Appointments</div>
+  <div class="appt-table">
+    <div class="appt-row header">
+      <span>Name / Email</span>
+      <span>When</span>
+      <span>Outcome</span>
+      <span>Next Step</span>
+    </div>
+    <div class="appt-row">
+      <div><div class="name">Sarah Mitchell</div><div class="email">sarah@example.com</div></div>
+      <div style="color:#9BACC0">Today 2pm</div>
+      <div><span class="badge-show">Show</span></div>
+      <div style="color:#4A5E7A;font-size:11px">Post-call sequence active</div>
+    </div>
+    <div class="appt-row">
+      <div><div class="name">James Ford</div><div class="email">james@example.com</div></div>
+      <div style="color:#9BACC0">Yesterday</div>
+      <div><span class="badge-noshow">No Show</span></div>
+      <div style="color:#4A5E7A;font-size:11px">No-show sequence active</div>
+    </div>
+    <div class="appt-row">
+      <div><div class="name">Denise Kowalski</div><div class="email">denise@example.com</div></div>
+      <div style="color:#9BACC0">Mar 27</div>
+      <div><span class="badge-pending">Pending</span></div>
+      <div style="color:#FBBF24;font-size:11px;cursor:pointer">⚠ Set outcome →</div>
+    </div>
+  </div>
+</div>
+
+<!-- HOT LEADS -->
+<div class="section">
+  <div class="section-label">🔥 Hot Leads — Reach Out Today <span style="color:#4A5E7A;font-weight:400;text-transform:none;letter-spacing:0">  2+ clicks in 7 days, not booked</span></div>
+  <div class="hot-table">
+    <div class="hot-row header">
+      <span>Name / Email</span>
+      <span>Clicks</span>
+      <span>Last Click</span>
+      <span>What They Clicked</span>
+    </div>
+    <div class="hot-row">
+      <div><div style="font-weight:600">Tara Simmons</div><div style="color:#4A5E7A;font-size:11px">tara@example.com</div></div>
+      <div style="color:#f97316;font-weight:700">4 🔥</div>
+      <div style="color:#9BACC0">2h ago</div>
+      <div style="color:#4A5E7A;font-size:11px">lead_nurture_3, lead_nurture_4</div>
+    </div>
+  </div>
+</div>
+
+<!-- EMAIL HEALTH -->
+<div class="section">
+  <div class="section-label">Email Health</div>
+  <div class="health-bar">
+    <span style="color:#22C55E">✅ Healthy</span>
+    <span style="color:#9BACC0">Queue: <strong style="color:#F7F8FC">2,802</strong> pending</span>
+    <span style="color:#9BACC0">Bounces (24h): <strong style="color:#F7F8FC">0</strong></span>
+    <span style="color:#9BACC0">Complaints: <strong style="color:#F7F8FC">0</strong></span>
+    <a style="color:#4A5E7A;font-size:11px;margin-left:auto;text-decoration:none">Details →</a>
+  </div>
+</div>
+
+<!-- REMOVED NOTE -->
+<div class="section">
+  <div class="removed-note">
+    ⚠ "New Leads (Last 7 Days)" table removed from this page — find it under the Leads tab with full filters and sorting.
+  </div>
+</div>
+
+<div style="height:40px"></div>
+
+</body>
+</html>

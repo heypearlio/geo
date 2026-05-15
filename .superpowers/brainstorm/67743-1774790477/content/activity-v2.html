@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a1628; color: #F7F8FC; min-height: 100vh; }
+
+  .nav { background: #0d1e36; border-bottom: 1px solid #1e3354; height: 50px; display: flex; align-items: center; padding: 0 24px; gap: 4px; }
+  .nav-brand { color: #E8185C; font-weight: 800; font-size: 15px; margin-right: 32px; letter-spacing: -0.02em; }
+  .nav-link { color: #9BACC0; font-size: 13px; padding: 5px 12px; border-radius: 6px; border-bottom: 2px solid transparent; cursor: pointer; }
+  .nav-link.active { color: #F7F8FC; font-weight: 700; background: #1a2d4a; border-bottom-color: #E8185C; }
+
+  .page { padding: 24px 28px; }
+  .page-header { margin-bottom: 20px; }
+  .page-header h1 { font-size: 20px; font-weight: 700; color: #F7F8FC; margin-bottom: 3px; }
+  .page-header p { font-size: 12px; color: #4A5E7A; }
+
+  .section { margin-bottom: 24px; }
+  .section-label { font-size: 11px; color: #4A5E7A; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; margin-bottom: 10px; }
+
+  /* Email Health Bar — top */
+  .health-bar { background: #1a2d4a; border: 1px solid #22C55E44; border-radius: 10px; padding: 12px 20px; display: flex; gap: 28px; align-items: center; font-size: 13px; flex-wrap: wrap; margin-bottom: 24px; }
+  .health-bar.warning { border-color: #FBBF2466; }
+  .health-status { font-weight: 700; }
+  .health-item { color: #9BACC0; font-size: 12px; }
+  .health-item strong { color: #F7F8FC; }
+  .health-link { color: #4A5E7A; font-size: 11px; margin-left: auto; cursor: pointer; text-decoration: none; }
+  .health-link:hover { color: #9BACC0; }
+
+  /* Stat cards */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .stat-card { background: #1a2d4a; border: 1px solid #2a3f5f; border-radius: 10px; padding: 18px 20px; }
+  .stat-card.clickable { cursor: pointer; transition: border-color 0.15s; }
+  .stat-card.clickable:hover { border-color: #E8185C88; }
+  .stat-card .label { font-size: 11px; color: #9BACC0; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .stat-card .value { font-size: 32px; font-weight: 800; line-height: 1; }
+  .stat-card .sub { font-size: 11px; color: #4A5E7A; margin-top: 6px; }
+  .stat-card.clickable .sub { color: #E8185C88; }
+  .click-hint { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; color: #E8185C88; margin-top: 5px; }
+
+  /* Source cards */
+  .source-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .source-card { background: #1a2d4a; border: 1px solid #2a3f5f; border-radius: 8px; padding: 14px 16px; }
+  .source-name { font-size: 12px; color: #F7F8FC; font-weight: 600; margin-bottom: 10px; }
+  .source-stats { display: flex; gap: 16px; }
+  .source-stat .n { font-size: 20px; font-weight: 800; line-height: 1; }
+  .source-stat .l { font-size: 10px; color: #4A5E7A; margin-top: 2px; }
+
+  /* Appointments table */
+  .table-wrap { background: #1a2d4a; border: 1px solid #2a3f5f; border-radius: 10px; overflow: hidden; }
+  .table-head { display: grid; padding: 9px 16px; background: #152438; border-bottom: 1px solid #1e3354; }
+  .table-head span { font-size: 11px; color: #4A5E7A; }
+  .table-row { display: grid; padding: 12px 16px; border-bottom: 1px solid #1e3354; align-items: center; font-size: 12px; cursor: pointer; }
+  .table-row:last-child { border-bottom: none; }
+  .table-row:hover { background: #1e3354; }
+  .appt-cols { grid-template-columns: 1.4fr 100px 110px 1fr; }
+  .hot-cols { grid-template-columns: 1.4fr 80px 100px 1fr; }
+  .name { font-weight: 600; color: #F7F8FC; }
+  .email-sub { font-size: 11px; color: #4A5E7A; }
+
+  .badge { display: inline-block; border-radius: 5px; padding: 3px 8px; font-size: 11px; font-weight: 600; }
+  .badge-show { background: #16a34a22; color: #22C55E; border: 1px solid #22C55E44; }
+  .badge-noshow { background: #ef444422; color: #EF4444; border: 1px solid #ef444444; }
+  .badge-pending { background: #fbbf2422; color: #FBBF24; border: 1px solid #fbbf2444; }
+
+  .needs-action-card { background: #1a2d4a; border: 1px solid #FBBF2444; border-radius: 10px; padding: 18px 20px; cursor: pointer; }
+  .needs-action-card:hover { border-color: #FBBF24; }
+  .needs-action-card .label { font-size: 11px; color: #9BACC0; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .needs-action-card .value { font-size: 32px; font-weight: 800; line-height: 1; color: #FBBF24; }
+  .needs-action-card .explain { font-size: 11px; color: #FBBF24; margin-top: 6px; }
+  .needs-action-card .cta { font-size: 11px; color: #FBBF2488; margin-top: 3px; }
+
+  .empty { padding: 20px 16px; color: #4A5E7A; font-size: 12px; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <span class="nav-brand">GEO Admin</span>
+  <span class="nav-link active">Activity</span>
+  <span class="nav-link">Leads</span>
+  <span class="nav-link">Campaigns</span>
+  <span class="nav-link">Calls</span>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <h1>Activity</h1>
+    <p>What's happening and what needs your attention.</p>
+  </div>
+
+  <!-- EMAIL HEALTH — top -->
+  <div class="health-bar">
+    <span class="health-status" style="color:#22C55E">✅ Email Healthy</span>
+    <span class="health-item">Queue: <strong>2,802</strong> pending</span>
+    <span class="health-item">Bounces (24h): <strong>0</strong></span>
+    <span class="health-item">Complaints (24h): <strong>0</strong></span>
+    <a class="health-link">View email details →</a>
+  </div>
+
+  <!-- STAT CARDS -->
+  <div class="section">
+    <div class="section-label">Today</div>
+    <div class="stat-grid">
+
+      <div class="stat-card clickable">
+        <div class="label">New Leads</div>
+        <div class="value" style="color:#E8185C">3</div>
+        <div class="sub">entered funnel today</div>
+        <div class="click-hint">↗ View last 7 days</div>
+      </div>
+
+      <div class="stat-card clickable">
+        <div class="label">Emails Sent</div>
+        <div class="value">12</div>
+        <div class="sub">sent today</div>
+        <div class="click-hint">↗ View email log</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="label">Open Rate</div>
+        <div class="value" style="color:#22C55E">47%</div>
+        <div class="sub">unique opens ÷ sends, 30 days</div>
+      </div>
+
+      <!-- Needs Action — clearly explained -->
+      <div class="needs-action-card">
+        <div class="label">Needs Action</div>
+        <div class="value">1</div>
+        <div class="explain">call happened — outcome not set</div>
+        <div class="cta">Click to set outcome →</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SOURCE ATTRIBUTION -->
+  <div class="section">
+    <div class="section-label">Where Leads Are Coming From — Last 30 Days</div>
+    <div class="source-grid">
+      <div class="source-card">
+        <div class="source-name">Audit (/score)</div>
+        <div class="source-stats">
+          <div class="source-stat"><div class="n" style="color:#F7F8FC">24</div><div class="l">leads</div></div>
+          <div class="source-stat"><div class="n" style="color:#22C55E">4</div><div class="l">booked</div></div>
+          <div class="source-stat"><div class="n" style="color:#FBBF24">17%</div><div class="l">conv.</div></div>
+        </div>
+      </div>
+      <div class="source-card">
+        <div class="source-name">Claim Form</div>
+        <div class="source-stats">
+          <div class="source-stat"><div class="n" style="color:#F7F8FC">5</div><div class="l">leads</div></div>
+          <div class="source-stat"><div class="n" style="color:#22C55E">1</div><div class="l">booked</div></div>
+          <div class="source-stat"><div class="n" style="color:#FBBF24">20%</div><div class="l">conv.</div></div>
+        </div>
+      </div>
+      <div class="source-card">
+        <div class="source-name">Calendly</div>
+        <div class="source-stats">
+          <div class="source-stat"><div class="n" style="color:#F7F8FC">5</div><div class="l">leads</div></div>
+          <div class="source-stat"><div class="n" style="color:#22C55E">5</div><div class="l">booked</div></div>
+          <div class="source-stat"><div class="n" style="color:#22C55E">100%</div><div class="l">conv.</div></div>
+        </div>
+      </div>
+      <div class="source-card">
+        <div class="source-name">Import</div>
+        <div class="source-stats">
+          <div class="source-stat"><div class="n" style="color:#F7F8FC">8</div><div class="l">leads</div></div>
+          <div class="source-stat"><div class="n" style="color:#22C55E">0</div><div class="l">booked</div></div>
+          <div class="source-stat"><div class="n" style="color:#9BACC0">0%</div><div class="l">conv.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECENT APPOINTMENTS -->
+  <div class="section">
+    <div class="section-label">Recent Appointments</div>
+    <div class="table-wrap">
+      <div class="table-head appt-cols">
+        <span>Name / Email</span>
+        <span>When</span>
+        <span>Outcome</span>
+        <span>Next Step</span>
+      </div>
+      <div class="table-row appt-cols">
+        <div><div class="name">Sarah Mitchell</div><div class="email-sub">sarah@example.com</div></div>
+        <div style="color:#9BACC0">Today 2pm</div>
+        <div><span class="badge badge-show">Show</span></div>
+        <div style="color:#4A5E7A;font-size:11px">Post-call sequence active</div>
+      </div>
+      <div class="table-row appt-cols" style="background:#1e1a0a">
+        <div><div class="name">Denise Kowalski</div><div class="email-sub">denise@example.com</div></div>
+        <div style="color:#9BACC0">Yesterday</div>
+        <div><span class="badge badge-pending">Pending</span></div>
+        <div style="color:#FBBF24;font-size:11px">⚠ Outcome not set — click to update</div>
+      </div>
+      <div class="table-row appt-cols">
+        <div><div class="name">James Ford</div><div class="email-sub">james@example.com</div></div>
+        <div style="color:#9BACC0">Mar 27</div>
+        <div><span class="badge badge-noshow">No Show</span></div>
+        <div style="color:#4A5E7A;font-size:11px">No-show sequence active</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOT LEADS -->
+  <div class="section">
+    <div class="section-label" style="display:flex;justify-content:space-between;align-items:center">
+      <span>🔥 Hot Leads — Reach Out Today</span>
+      <span style="font-size:11px;color:#4A5E7A;text-transform:none;letter-spacing:0;font-weight:400">2+ email link clicks in 7 days · not yet booked</span>
+    </div>
+    <div class="table-wrap">
+      <div class="table-head hot-cols">
+        <span>Name / Email</span>
+        <span>Clicks</span>
+        <span>Last Click</span>
+        <span>What They Clicked</span>
+      </div>
+      <div class="table-row hot-cols">
+        <div><div class="name">Tara Simmons</div><div class="email-sub">tara@example.com</div></div>
+        <div style="color:#f97316;font-weight:700">4 🔥</div>
+        <div style="color:#9BACC0">2h ago</div>
+        <div style="color:#4A5E7A;font-size:11px">lead_nurture step 3, step 4</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

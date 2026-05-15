@@ -1,0 +1,125 @@
+<h2>Leads Table Style</h2>
+<p class="subtitle">Same data, three different row treatments. Which feels most usable?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:0;overflow:hidden;border-radius:6px;border:1px solid #e2e8f0;">
+      <table style="width:100%;border-collapse:collapse;font-family:system-ui;font-size:11px;">
+        <thead>
+          <tr style="background:#F8FAFC;border-bottom:1px solid #e2e8f0;">
+            <th style="padding:8px 12px;text-align:left;color:#94a3b8;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:0.06em;">Name</th>
+            <th style="padding:8px 12px;text-align:left;color:#94a3b8;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:0.06em;">Status</th>
+            <th style="padding:8px 12px;text-align:left;color:#94a3b8;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:0.06em;">Sequence</th>
+            <th style="padding:8px 12px;text-align:left;color:#94a3b8;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:0.06em;">Last Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #f1f5f9;background:#fff;">
+            <td style="padding:10px 12px;"><div style="font-weight:600;color:#0F1E3A;">Sarah Johnson</div><div style="color:#94a3b8;font-size:9.5px;margin-top:1px;">sarah@realty.com</div></td>
+            <td style="padding:10px 12px;"><span style="background:#dcfce7;color:#16a34a;padding:2px 8px;border-radius:20px;font-size:9.5px;font-weight:600;">Hot</span></td>
+            <td style="padding:10px 12px;color:#64748b;">Lead Nurture</td>
+            <td style="padding:10px 12px;color:#64748b;">Opened · 2h ago</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9;background:#fff;">
+            <td style="padding:10px 12px;"><div style="font-weight:600;color:#0F1E3A;">Mike Torres</div><div style="color:#94a3b8;font-size:9.5px;margin-top:1px;">mike@compass.com</div></td>
+            <td style="padding:10px 12px;"><span style="background:#fff7ed;color:#ea580c;padding:2px 8px;border-radius:20px;font-size:9.5px;font-weight:600;">Warm</span></td>
+            <td style="padding:10px 12px;color:#64748b;">Long-Term Nurture</td>
+            <td style="padding:10px 12px;color:#64748b;">Sent · 1d ago</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9;background:#fff;">
+            <td style="padding:10px 12px;"><div style="font-weight:600;color:#0F1E3A;">Lisa Chen</div><div style="color:#94a3b8;font-size:9.5px;margin-top:1px;">lisa@kw.com</div></td>
+            <td style="padding:10px 12px;"><span style="background:#f1f5f9;color:#64748b;padding:2px 8px;border-radius:20px;font-size:9.5px;font-weight:600;">Cold</span></td>
+            <td style="padding:10px 12px;color:#64748b;">Proof Series</td>
+            <td style="padding:10px 12px;color:#64748b;">Sent · 3d ago</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-body">
+      <h3>A — Pill badges, subtle rows</h3>
+      <p>Rounded status pills, name+email stacked, very light row borders. Clean and modern, like Notion or Linear.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:0;overflow:hidden;border-radius:6px;border:1px solid #e2e8f0;">
+      <table style="width:100%;border-collapse:collapse;font-family:system-ui;font-size:11px;">
+        <thead>
+          <tr style="background:#0F1E3A;">
+            <th style="padding:8px 12px;text-align:left;color:#9BACC0;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:0.06em;">Name</th>
+            <th style="padding:8px 12px;text-align:left;color:#9BACC0;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:0.06em;">Status</th>
+            <th style="padding:8px 12px;text-align:left;color:#9BACC0;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:0.06em;">Sequence</th>
+            <th style="padding:8px 12px;text-align:left;color:#9BACC0;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:0.06em;">Last Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #f1f5f9;background:#fff;">
+            <td style="padding:10px 12px;"><div style="font-weight:600;color:#0F1E3A;">Sarah Johnson</div><div style="color:#94a3b8;font-size:9.5px;margin-top:1px;">sarah@realty.com</div></td>
+            <td style="padding:10px 12px;"><span style="color:#16a34a;font-weight:700;font-size:11px;">● Hot</span></td>
+            <td style="padding:10px 12px;color:#64748b;">Lead Nurture</td>
+            <td style="padding:10px 12px;color:#64748b;">Opened · 2h ago</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9;background:#fff;">
+            <td style="padding:10px 12px;"><div style="font-weight:600;color:#0F1E3A;">Mike Torres</div><div style="color:#94a3b8;font-size:9.5px;margin-top:1px;">mike@compass.com</div></td>
+            <td style="padding:10px 12px;"><span style="color:#ea580c;font-weight:700;font-size:11px;">● Warm</span></td>
+            <td style="padding:10px 12px;color:#64748b;">Long-Term Nurture</td>
+            <td style="padding:10px 12px;color:#64748b;">Sent · 1d ago</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9;background:#fff;">
+            <td style="padding:10px 12px;"><div style="font-weight:600;color:#0F1E3A;">Lisa Chen</div><div style="color:#94a3b8;font-size:9.5px;margin-top:1px;">lisa@kw.com</div></td>
+            <td style="padding:10px 12px;"><span style="color:#94a3b8;font-weight:700;font-size:11px;">● Cold</span></td>
+            <td style="padding:10px 12px;color:#64748b;">Proof Series</td>
+            <td style="padding:10px 12px;color:#64748b;">Sent · 3d ago</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-body">
+      <h3>B — Dark header, dot status</h3>
+      <p>Navy table header ties to sidebar brand, colored dot + text for status. More structured, data-forward feel.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:0;overflow:hidden;border-radius:6px;border:1px solid #e2e8f0;">
+      <table style="width:100%;border-collapse:collapse;font-family:system-ui;font-size:11px;">
+        <thead>
+          <tr style="background:#fff;border-bottom:2px solid #e2e8f0;">
+            <th style="padding:8px 12px;text-align:left;color:#94a3b8;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:0.06em;">Name</th>
+            <th style="padding:8px 12px;text-align:left;color:#94a3b8;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:0.06em;">Status</th>
+            <th style="padding:8px 12px;text-align:left;color:#94a3b8;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:0.06em;">Sequence</th>
+            <th style="padding:8px 12px;text-align:left;color:#94a3b8;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:0.06em;">Last Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #f1f5f9;background:#fff;">
+            <td style="padding:11px 12px;"><div style="font-weight:600;color:#0F1E3A;">Sarah Johnson</div><div style="color:#94a3b8;font-size:9.5px;margin-top:1px;">sarah@realty.com</div></td>
+            <td style="padding:11px 12px;"><span style="background:#dcfce7;color:#16a34a;padding:3px 10px;border-radius:4px;font-size:9.5px;font-weight:700;letter-spacing:0.03em;">HOT</span></td>
+            <td style="padding:11px 12px;"><span style="background:#EEF1FF;color:#4A56C9;padding:3px 10px;border-radius:4px;font-size:9.5px;font-weight:600;">Lead Nurture</span></td>
+            <td style="padding:11px 12px;"><span style="color:#16a34a;font-size:10px;font-weight:600;">↗ Opened</span> <span style="color:#94a3b8;font-size:10px;">2h ago</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9;background:#fff;">
+            <td style="padding:11px 12px;"><div style="font-weight:600;color:#0F1E3A;">Mike Torres</div><div style="color:#94a3b8;font-size:9.5px;margin-top:1px;">mike@compass.com</div></td>
+            <td style="padding:11px 12px;"><span style="background:#fff7ed;color:#ea580c;padding:3px 10px;border-radius:4px;font-size:9.5px;font-weight:700;letter-spacing:0.03em;">WARM</span></td>
+            <td style="padding:11px 12px;"><span style="background:#f0fdf4;color:#16a34a;padding:3px 10px;border-radius:4px;font-size:9.5px;font-weight:600;">Long-Term Nurture</span></td>
+            <td style="padding:11px 12px;"><span style="color:#94a3b8;font-size:10px;font-weight:600;">→ Sent</span> <span style="color:#94a3b8;font-size:10px;">1d ago</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #f1f5f9;background:#fff;">
+            <td style="padding:11px 12px;"><div style="font-weight:600;color:#0F1E3A;">Lisa Chen</div><div style="color:#94a3b8;font-size:9.5px;margin-top:1px;">lisa@kw.com</div></td>
+            <td style="padding:11px 12px;"><span style="background:#f1f5f9;color:#64748b;padding:3px 10px;border-radius:4px;font-size:9.5px;font-weight:700;letter-spacing:0.03em;">COLD</span></td>
+            <td style="padding:11px 12px;"><span style="background:#f0f9ff;color:#0284c7;padding:3px 10px;border-radius:4px;font-size:9.5px;font-weight:600;">Proof Series</span></td>
+            <td style="padding:11px 12px;"><span style="color:#94a3b8;font-size:10px;font-weight:600;">→ Sent</span> <span style="color:#94a3b8;font-size:10px;">3d ago</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-body">
+      <h3>C — Color-coded badges everywhere</h3>
+      <p>Colored chips for status AND sequence, directional arrows on email events. Most information density, most visual.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px;">Click to select, then tell me in the terminal.</p>

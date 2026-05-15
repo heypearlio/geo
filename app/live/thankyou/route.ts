@@ -1,0 +1,319 @@
+import { NextResponse } from "next/server";
+
+export async function GET() {
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You're In! | heypearl.io/live</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Montserrat', 'Arial Black', Arial, sans-serif; background: white; color: #1a1a1a; }
+
+  .top-banner {
+    background: #0F1E3A; color: white;
+    text-align: center; padding: 11px 20px;
+    font-size: 14px; font-weight: 700; letter-spacing: 0.3px;
+  }
+  .top-banner .pink { color: #E8185C; }
+
+  .hero {
+    position: relative; overflow: hidden;
+    padding: 60px 24px 64px; text-align: center;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background-image: url('/speaker.jpg');
+    background-size: cover; background-position: center top;
+  }
+  .hero-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(255,255,255,0.82);
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; }
+
+  .hero-h1 {
+    font-size: clamp(24px, 3.6vw, 38px); font-weight: 900;
+    color: #0F1E3A; line-height: 1.18; margin-bottom: 28px;
+  }
+  .live-tag { color: #E8185C; }
+
+  .hero-sub { font-size: 17px; font-weight: 800; color: #1a1a1a; margin-bottom: 18px; }
+
+  .tz-block { margin-bottom: 28px; }
+  .tz-date { font-size: 16px; font-weight: 800; color: #1a1a1a; margin-bottom: 8px; }
+  .tz-list { list-style: none; }
+  .tz-list li { font-size: 15px; color: #333; line-height: 2; }
+  .tz-list li strong { font-weight: 800; color: #1a1a1a; }
+
+  .psst { font-size: 15px; color: #333; line-height: 1.65; margin-bottom: 28px; }
+  .psst strong { font-weight: 800; color: #1a1a1a; }
+
+  .btn-main {
+    display: inline-block; background: #0F1E3A; color: white;
+    font-size: 17px; font-weight: 800; padding: 18px 52px;
+    border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;
+    text-decoration: none; line-height: 1.2;
+  }
+  .btn-main:hover { background: #162d58; }
+
+  .cd-bar {
+    background: #0F1E3A; padding: 28px 24px; text-align: center;
+  }
+  .cd-bar-label { font-size: 13px; font-weight: 800; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; }
+  .cd-row { display: flex; justify-content: center; align-items: flex-end; gap: 4px; }
+  .cd-unit { text-align: center; }
+  .cd-num { font-size: 56px; font-weight: 900; color: white; line-height: 1; font-variant-numeric: tabular-nums; min-width: 64px; }
+  .cd-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+  .cd-col { font-size: 48px; font-weight: 900; color: rgba(255,255,255,0.4); padding-bottom: 10px; line-height: 1; }
+
+  .section-bar {
+    background: #0F1E3A; color: white;
+    text-align: center; padding: 18px 24px;
+    font-size: clamp(19px, 2.8vw, 26px); font-weight: 800;
+    border-radius: 10px; margin: 0 24px 36px;
+  }
+
+  .from-section { background: white; padding: 52px 24px; }
+  .from-inner { max-width: 900px; margin: 0 auto; display: flex; gap: 48px; align-items: flex-start; }
+  @media(max-width:640px){ .from-inner { flex-direction: column; } }
+  .from-text { flex: 1; }
+  .from-label { font-size: 12px; font-weight: 800; color: #888; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .from-text p { font-size: 15px; line-height: 1.8; color: #333; margin-bottom: 14px; }
+  .from-sig { font-size: 16px; font-weight: 800; color: #1a1a1a; }
+  .from-photo { flex: 0 0 300px; }
+  .from-photo img { width: 100%; border-radius: 8px; object-fit: cover; object-position: top; max-height: 420px; display: block; }
+
+  .steps-section { background: #f7f8fc; padding: 44px 24px 52px; }
+  .steps-inner { max-width: 900px; margin: 0 auto; }
+  .steps-cols { display: flex; gap: 36px; }
+  @media(max-width:640px){ .steps-cols { flex-direction: column; gap: 28px; } }
+  .step-col { flex: 1; }
+  .step-num { font-size: 13px; font-weight: 900; color: #E8185C; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .step-col p { font-size: 14px; color: #333; line-height: 1.75; }
+  .step-col p strong { font-weight: 800; color: #1a1a1a; }
+
+  .learn { background: white; padding: 44px 0 52px; }
+  .two-col {
+    display: flex; gap: 36px; max-width: 900px;
+    margin: 0 auto; padding: 0 24px; align-items: flex-start;
+  }
+  @media(max-width:640px){ .two-col { flex-direction: column; } }
+  .col-photo { flex: 0 0 340px; }
+  .col-photo img { width: 100%; border-radius: 8px; display: block; max-height: 480px; object-fit: cover; object-position: top; }
+  .col-text { flex: 1; padding-top: 4px; }
+  .check-list { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+  .check-item { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; color: #1a1a1a; line-height: 1.62; }
+  .ck { font-size: 15px; font-weight: 900; color: #1a1a1a; flex-shrink: 0; margin-top: 2px; }
+  .check-item .bl { font-weight: 800; }
+  .check-item .bl.pink { color: #E8185C; }
+  .check-item u { font-weight: 700; }
+
+  .bonuses { background: #f7f8fc; padding: 44px 0 52px; }
+  .bonus-list { list-style: none; max-width: 860px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 20px; }
+  .bonus-item { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; color: #1a1a1a; line-height: 1.62; }
+
+  .bottom-cta { background: white; padding: 60px 24px; text-align: center; border-top: 1px solid #eee; }
+  .bottom-cta h2 { font-size: clamp(24px,3.5vw,36px); font-weight: 900; color: #0F1E3A; margin-bottom: 10px; }
+  .bottom-cta .sub { font-size: 16px; font-weight: 700; color: #555; margin-bottom: 24px; }
+
+  .disclaimer { background: #111827; padding: 26px 28px; }
+  .disclaimer p { color: rgba(255,255,255,0.33); font-size: 10.5px; line-height: 1.8; max-width: 860px; margin: 0 auto 10px; }
+  .disclaimer p strong { font-weight: 800; color: rgba(255,255,255,0.5); text-transform: uppercase; font-size: 10px; letter-spacing: 0.5px; }
+  .disclaimer a { color: rgba(255,255,255,0.45); }
+  html, body { background: #111827; }
+</style>
+</head>
+<body>
+
+<div class="top-banner"><span class="pink">Congratulations,</span> Your Free Seat Is Saved!</div>
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <h1 class="hero-h1">
+      <span class="live-tag">LIVE:</span> Clone The Exact System I'm Using to Become the #1 Agent in My Market and Close $50,000+ in 90 Days
+    </h1>
+    <p class="hero-sub">Now, Add This To Your Calendar ASAP...</p>
+    <div class="tz-block">
+      <div class="tz-date" id="next-date">Next Live: Friday</div>
+      <ul class="tz-list">
+        <li><strong>Pacific Time:</strong> 7AM</li>
+        <li><strong>Mountain Time:</strong> 8AM</li>
+        <li><strong>Central Time:</strong> 9AM</li>
+        <li><strong>Eastern Time:</strong> 10AM</li>
+      </ul>
+    </div>
+    <p class="psst">Psst, I would love your help to make this the best for you. <strong>Just click the button below to help me.</strong></p>
+    <a id="help-btn" href="/live/survey" class="btn-main">&#9654; Click To Help Me</a>
+  </div>
+</div>
+
+<div class="cd-bar">
+  <div class="cd-bar-label">Live Info Session Is Starting In...</div>
+  <div class="cd-row">
+    <div class="cd-unit"><div class="cd-num" id="h">00</div><div class="cd-lbl">Hour</div></div>
+    <div class="cd-col">:</div>
+    <div class="cd-unit"><div class="cd-num" id="m">00</div><div class="cd-lbl">Minute</div></div>
+    <div class="cd-col">:</div>
+    <div class="cd-unit"><div class="cd-num" id="s">00</div><div class="cd-lbl">Second</div></div>
+  </div>
+</div>
+
+<div class="from-section">
+  <div class="from-inner">
+    <div class="from-text">
+      <div class="from-label">From: Misti Bruton</div>
+      <p>Your free seat just got saved. I can't wait to see you on the live info session where I'll show you the exact system I'm using to dominate my local market and close consistent deals.</p>
+      <p>I built this because I was tired of chasing leads that went nowhere. Cold calls, door knocking, Zillow leads that cost a fortune. There had to be a better way, and there was.</p>
+      <p>I'll be holding nothing back so make sure you don't miss it.</p>
+      <p>In the meanwhile, follow the steps below to ensure you don't miss the invite link.</p>
+      <p class="from-sig">Misti</p>
+    </div>
+    <div class="from-photo">
+      <img src="/speaker.jpg" alt="Misti Bruton" />
+    </div>
+  </div>
+</div>
+
+<div class="steps-section">
+  <div class="steps-inner">
+    <div class="section-bar">Here's What To Do Right Now</div>
+    <div class="steps-cols">
+      <div class="step-col">
+        <div class="step-num">Step 1</div>
+        <p>Check your email from HeyPearl and make sure to set aside at least 90 minutes for this session. Block off your calendar so you don't have any distractions. <strong>We just sent you 1 bonus.</strong></p>
+      </div>
+      <div class="step-col">
+        <div class="step-num">Step 2</div>
+        <p><strong>Be sure to watch on a desktop or laptop</strong> (NOT a phone). Your phone screen won't allow for the best experience or let you see the live market data we pull for your zip code.</p>
+      </div>
+      <div class="step-col">
+        <div class="step-num">Step 3</div>
+        <p><strong>Make sure to read all emails</strong> and messages we send you. They will be critical to your success in getting the most out of the system I'll be handing you on the call.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="learn">
+  <div class="section-bar">During This Live Info Session, You'll Be Learning...</div>
+  <div class="two-col">
+    <div class="col-photo">
+      <img src="/laptop-photo.jpg" alt="HeyPearl Live Info Session" />
+    </div>
+    <div class="col-text">
+      <ul class="check-list">
+        <li class="check-item">
+          <span class="ck">&#10003;</span>
+          <span><span class="bl pink">REVEALED:</span> The exact system top-producing agents use to dominate their local market and close consistent deals, without dancing on social media, spending thousands on Zillow leads, or cold calling expired listings. How I positioned myself as the go-to agent in my market and started generating qualified leads on autopilot and how you can <u>clone the exact same system in your zip code.</u></span>
+        </li>
+        <li class="check-item">
+          <span class="ck">&#10003;</span>
+          <span><span class="bl pink">LIVE:</span> How to build a hands-off social media funnel that brings in 2-5 qualified leads a day even if you're brand new or feel like you're late to the game.</span>
+        </li>
+        <li class="check-item">
+          <span class="ck">&#10003;</span>
+          <span><span class="bl pink">LIVE:</span> The strategy that keeps your name in front of the right people at the right time, so when someone is ready to buy or sell, <u>YOU are the agent they call.</u> How to lock down your market before a competitor does, and why the agents who move first <u>build the referral network that shuts everyone else out permanently.</u></span>
+        </li>
+        <li class="check-item">
+          <span class="ck">&#10003;</span>
+          <span>And so much more...</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="bonuses">
+  <div class="section-bar">Attend The Live Info Session &amp; Get These Bonuses</div>
+  <ul class="bonus-list">
+    <li class="bonus-item">
+      <span class="ck">&#10003;</span>
+      <span><span class="bl">Instagram 2-Hour Masterclass:</span> Learn how I turned a small audience on Instagram into a consistent pipeline of high-quality leads, the kind who are ready to work with you, not just window shop. I'll show you the content strategy that built my following and fills my calendar.</span>
+    </li>
+    <li class="bonus-item">
+      <span class="ck">&#10003;</span>
+      <span><span class="bl">The 90-Day $50K Action Plan:</span> A week-by-week roadmap for closing your first $50K sprint without cold calling, door knocking, or paying for expensive leads, so you know exactly what to do every day.</span>
+    </li>
+    <li class="bonus-item">
+      <span class="ck">&#10003;</span>
+      <span><span class="bl">Free AI Visibility Score Report:</span> See exactly how ChatGPT, Google AI, and Perplexity rank you vs. competitors in your market right now. Instant, personalized, delivered the moment you register.</span>
+    </li>
+    <li class="bonus-item">
+      <span class="ck">&#10003;</span>
+      <span><span class="bl">Market Availability Check:</span> We will tell you instantly if your zip code is still open, or if a competitor has already locked it down. One agent per market. First come, first served.</span>
+    </li>
+    <li class="bonus-item">
+      <span class="ck">&#10003;</span>
+      <span><span class="bl">Online Visibility Audit:</span> We pull your actual visibility data live on the call, so you can instantly spot the mistakes that are repelling clients and unlock low-hanging wins that boost your brand fast.</span>
+    </li>
+  </ul>
+</div>
+
+<div class="bottom-cta">
+  <h2>I'll See You At The Live Info Session</h2>
+  <p class="sub">Add This To Your Calendar Right Now</p>
+  <div class="cd-bar" style="border-radius:10px;max-width:520px;margin:0 auto;">
+    <div class="cd-bar-label">Live Info Session Is Starting In...</div>
+    <div class="cd-row">
+      <div class="cd-unit"><div class="cd-num" id="h2">00</div><div class="cd-lbl">Hour</div></div>
+      <div class="cd-col">:</div>
+      <div class="cd-unit"><div class="cd-num" id="m2">00</div><div class="cd-lbl">Minute</div></div>
+      <div class="cd-col">:</div>
+      <div class="cd-unit"><div class="cd-num" id="s2">00</div><div class="cd-lbl">Second</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="disclaimer">
+  <p><strong>Disclaimer:</strong> HeyPearl's live info sessions are live, one-time events with no replays, designed for agents serious about growing their business. The training shared is based on direct experience and results from working with agents across the country. Results are not typical, and there are no guarantees of success. Individual results will vary based on market conditions, existing online presence, effort, and skill. The strategies discussed are for educational purposes only.</p>
+  <p><strong>Live Only Disclaimer:</strong> There are no replays. No recordings. If you miss it, you miss it. By registering you agree to receive communications from HeyPearl and may unsubscribe at any time. <a href="/privacy">Privacy Policy</a> &middot; <a href="#">Terms of Service</a></p>
+</div>
+
+<script>
+  function nextFriNine() {
+    const now = new Date();
+    const cst = new Date(now.toLocaleString("en-US", {timeZone: "America/Chicago"}));
+    let days = (5 - cst.getDay() + 7) % 7;
+    if (days === 0 && cst.getHours() >= 9) days = 7;
+    const t = new Date(cst);
+    t.setDate(cst.getDate() + days);
+    t.setHours(9, 0, 0, 0);
+    const offset = now - cst;
+    return new Date(t.getTime() + offset);
+  }
+
+  const end = nextFriNine();
+
+  (function() {
+    const label = end.toLocaleDateString("en-US", {weekday: "long", month: "long", day: "numeric", timeZone: "America/Chicago"});
+    document.getElementById("next-date").textContent = "Next Live: " + label;
+  })();
+
+  function tick() {
+    const diff = Math.max(0, end - new Date());
+    const totalSecs = Math.floor(diff / 1000);
+    const hrs  = Math.floor(totalSecs / 3600);
+    const mins = Math.floor((totalSecs % 3600) / 60);
+    const secs = totalSecs % 60;
+    const pad  = function(n) { return String(n).padStart(2, '0'); };
+    document.getElementById('h').textContent  = pad(hrs);
+    document.getElementById('m').textContent  = pad(mins);
+    document.getElementById('s').textContent  = pad(secs);
+    document.getElementById('h2').textContent = pad(hrs);
+    document.getElementById('m2').textContent = pad(mins);
+    document.getElementById('s2').textContent = pad(secs);
+  }
+  tick(); setInterval(tick, 1000);
+</script>
+
+</body>
+</html>`;
+
+  return new NextResponse(html, {
+    headers: { "Content-Type": "text/html; charset=utf-8" },
+  });
+}

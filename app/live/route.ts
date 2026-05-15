@@ -1,0 +1,334 @@
+import { NextResponse } from "next/server";
+
+export async function GET() {
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Live Info Session: Make $50K in 90 Days | heypearl.io/live</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Montserrat', 'Arial Black', Arial, sans-serif; background: white; color: #1a1a1a; }
+
+  .top-banner {
+    background: #0F1E3A; color: white;
+    text-align: center; padding: 11px 20px;
+    font-size: 14px; font-weight: 700; letter-spacing: 0.3px;
+  }
+
+  .hero {
+    position: relative; text-align: center;
+    padding: 52px 24px 56px; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background-image: url('/speaker.jpg');
+    background-size: cover; background-position: center top;
+  }
+  .hero-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(15,30,58,0.72);
+  }
+  .hero-content { position: relative; z-index: 2; }
+
+  .cd-row { display: flex; justify-content: center; align-items: flex-end; gap: 4px; margin-bottom: 26px; }
+  .cd-unit { text-align: center; }
+  .cd-num { font-size: 60px; font-weight: 900; color: white; line-height: 1; font-variant-numeric: tabular-nums; min-width: 68px; }
+  .cd-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.55); margin-top: 4px; }
+  .cd-col { font-size: 52px; font-weight: 900; color: rgba(255,255,255,0.5); padding-bottom: 12px; line-height: 1; }
+
+  .hero-h1 {
+    font-size: clamp(23px, 3.8vw, 34px); font-weight: 900;
+    color: white; line-height: 1.18; max-width: 740px;
+    margin: 0 auto 24px;
+  }
+  .live-tag { color: #E8185C; }
+
+  .tz-block { margin: 0 auto 30px; text-align: center; }
+  .tz-date { font-size: 16px; font-weight: 700; color: white; margin-bottom: 8px; }
+  .tz-list { list-style: none; }
+  .tz-list li { font-size: 15px; color: rgba(255,255,255,0.9); line-height: 1.9; }
+  .tz-list li strong { font-weight: 800; color: white; }
+
+  .btn-main {
+    display: inline-block; background: #0F1E3A; color: white;
+    font-size: 17px; font-weight: 800; padding: 18px 52px;
+    border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;
+    cursor: pointer; line-height: 1.2;
+    border: 2px solid rgba(255,255,255,0.25);
+  }
+  .btn-main small {
+    display: block; font-size: 12px; font-weight: 600; margin-top: 4px;
+    text-transform: none; opacity: 0.75; letter-spacing: 0.3px;
+  }
+
+  .section-bar {
+    background: #0F1E3A; color: white;
+    text-align: center; padding: 18px 24px;
+    font-size: clamp(19px, 2.8vw, 26px); font-weight: 800;
+    border-radius: 10px; margin: 0 24px 36px;
+  }
+
+  .pillars { background: white; padding: 44px 0 52px; }
+  .two-col {
+    display: flex; gap: 36px; max-width: 900px;
+    margin: 0 auto; padding: 0 24px; align-items: flex-start;
+  }
+  @media(max-width:640px){ .two-col { flex-direction: column; } }
+  .col-photo { flex: 0 0 340px; }
+  .col-photo img {
+    width: 100%; border-radius: 8px; display: block;
+    max-height: 480px; object-fit: cover; object-position: top;
+  }
+  .col-text { flex: 1; padding-top: 4px; }
+  .check-list { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+  .check-item { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; color: #1a1a1a; line-height: 1.62; }
+  .ck { font-size: 15px; font-weight: 900; color: #1a1a1a; flex-shrink: 0; margin-top: 2px; }
+  .check-item .bl { font-weight: 800; }
+  .check-item .bl.pink { color: #E8185C; }
+  .check-item u { font-weight: 700; text-decoration: underline; }
+
+  .bonuses { background: white; padding: 44px 0 52px; }
+  .bonus-list { list-style: none; max-width: 860px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 20px; }
+  .bonus-item { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; color: #1a1a1a; line-height: 1.62; }
+
+  .save { position: relative; text-align: center; padding: 60px 24px; overflow: hidden; }
+  .save-bg {
+    position: absolute; inset: 0;
+    background-image: url('/speaker.jpg');
+    background-size: cover; background-position: center top;
+    filter: brightness(0.3) blur(3px); transform: scale(1.06);
+  }
+  .save-content { position: relative; z-index: 2; }
+  .save h2 { font-size: clamp(26px,4vw,38px); font-weight: 900; color: white; margin-bottom: 10px; }
+  .save .save-sub { font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.85); margin-bottom: 26px; max-width: 560px; margin-left: auto; margin-right: auto; }
+  .save .tz-list li { color: rgba(255,255,255,0.9); }
+  .save .tz-date { color: white; }
+
+  .disclaimer { background: #111827; padding: 26px 28px; }
+  .disclaimer p { color: rgba(255,255,255,0.33); font-size: 10.5px; line-height: 1.8; max-width: 860px; margin: 0 auto 10px; }
+  .disclaimer p strong { font-weight: 800; color: rgba(255,255,255,0.5); text-transform: uppercase; font-size: 10px; letter-spacing: 0.5px; }
+  .disclaimer a { color: rgba(255,255,255,0.45); }
+  html, body { background: #111827; margin: 0; padding: 0; }
+
+  #signup-modal {
+    display: none; position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.72); align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .modal-card {
+    background: #fff; border-radius: 10px; padding: 40px 36px; max-width: 460px; width: 100%;
+    text-align: center; position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 14px; right: 18px; font-size: 22px; cursor: pointer;
+    color: #999; background: none; border: none; line-height: 1;
+  }
+  .modal-card h2 { font-size: 22px; font-weight: 900; color: #0F1E3A; margin-bottom: 6px; }
+  .modal-card p { font-size: 14px; color: #555; margin-bottom: 24px; line-height: 1.5; }
+  .modal-field {
+    width: 100%; padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 6px;
+    font-size: 15px; font-family: inherit; margin-bottom: 12px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .modal-field:focus { border-color: #E8185C; }
+  .modal-submit {
+    width: 100%; background: #E8185C; color: #fff; border: none; border-radius: 6px;
+    padding: 16px; font-size: 15px; font-weight: 900; font-family: inherit;
+    text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer;
+    transition: background 0.2s; margin-top: 4px;
+  }
+  .modal-submit:hover { background: #c41250; }
+  .modal-legal { font-size: 11px; color: #aaa; margin-top: 14px; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<div class="top-banner">Free Live Info Session for Real Estate Agents: Become the #1 Agent in Your Market</div>
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="cd-row">
+      <div class="cd-unit"><div class="cd-num" id="h">00</div><div class="cd-lbl">Hour</div></div>
+      <div class="cd-col">:</div>
+      <div class="cd-unit"><div class="cd-num" id="m">00</div><div class="cd-lbl">Minute</div></div>
+      <div class="cd-col">:</div>
+      <div class="cd-unit"><div class="cd-num" id="s">00</div><div class="cd-lbl">Second</div></div>
+    </div>
+
+    <h1 class="hero-h1">
+      <span class="live-tag">LIVE:</span> Clone The Exact System I'm Using to Become the #1 Agent in My Market and Close $50,000+ in 90 Days
+    </h1>
+
+    <div class="tz-block">
+      <div class="tz-date" id="next-date">Every Friday</div>
+      <ul class="tz-list">
+        <li><strong>Pacific Time:</strong> 7AM</li>
+        <li><strong>Mountain Time:</strong> 8AM</li>
+        <li><strong>Central Time:</strong> 9AM</li>
+        <li><strong>Eastern Time:</strong> 10AM</li>
+      </ul>
+    </div>
+
+    <div class="btn-main" onclick="document.getElementById('signup-modal').style.display='flex'" style="cursor:pointer;">
+      RSVP &amp; SIGN UP
+      <small>+ Get Your Free AI Visibility Score Instantly</small>
+    </div>
+  </div>
+</div>
+
+<div class="pillars">
+  <div class="section-bar">Wondering What You're Going To See?</div>
+  <div class="two-col">
+    <div class="col-photo">
+      <img src="/laptop-photo.jpg" alt="HeyPearl Live Info Session" />
+    </div>
+    <div class="col-text">
+      <ul class="check-list">
+        <li class="check-item">
+          <span class="ck">&#10003;</span>
+          <span><span class="bl pink">REVEALED:</span> The exact system top-producing agents use to dominate their local market and close consistent deals, without dancing on social media, spending thousands on Zillow leads, or cold calling expired listings. How I positioned myself as the go-to agent in my market and started generating qualified leads on autopilot and how you can <u>clone the exact same system in your zip code.</u></span>
+        </li>
+        <li class="check-item">
+          <span class="ck">&#10003;</span>
+          <span><span class="bl pink">LIVE:</span> How to build a hands-off social media funnel that brings in 2-5 qualified leads a day even if you're brand new or feel like you're late to the game.</span>
+        </li>
+        <li class="check-item">
+          <span class="ck">&#10003;</span>
+          <span><span class="bl pink">LIVE:</span> The strategy that keeps your name in front of the right people at the right time, so when someone is ready to buy or sell, <u>YOU are the agent they call.</u> How to lock down your market before a competitor does, and why the agents who move first <u>build the referral network that shuts everyone else out permanently.</u></span>
+        </li>
+        <li class="check-item">
+          <span class="ck">&#10003;</span>
+          <span>And so much more...</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="bonuses">
+  <div class="section-bar">Attend The Live Info Session &amp; Get These Bonuses</div>
+  <ul class="bonus-list">
+    <li class="bonus-item">
+      <span class="ck">&#10003;</span>
+      <span><span class="bl">Instagram 2-Hour Masterclass:</span> Learn how I turned a small audience on Instagram into a consistent pipeline of high-quality leads, the kind who are ready to work with you, not just window shop. I'll show you the content strategy that built my following and fills my calendar.</span>
+    </li>
+    <li class="bonus-item">
+      <span class="ck">&#10003;</span>
+      <span><span class="bl">The 90-Day $50K Action Plan:</span> A week-by-week roadmap for closing your first $50K sprint without cold calling, door knocking, or paying for expensive leads, so you know exactly what to do every day.</span>
+    </li>
+    <li class="bonus-item">
+      <span class="ck">&#10003;</span>
+      <span><span class="bl">Free AI Visibility Score Report:</span> See exactly how ChatGPT, Google AI, and Perplexity rank you vs. competitors in your market right now. Instant, personalized, delivered the moment you register.</span>
+    </li>
+    <li class="bonus-item">
+      <span class="ck">&#10003;</span>
+      <span><span class="bl">Market Availability Check:</span> We will tell you instantly if your zip code is still open, or if a competitor has already locked it down. One agent per market. First come, first served.</span>
+    </li>
+    <li class="bonus-item">
+      <span class="ck">&#10003;</span>
+      <span><span class="bl">Online Visibility Audit:</span> We pull your actual visibility data live on the call, so you can instantly spot the mistakes that are repelling clients and unlock low-hanging wins that boost your brand fast.</span>
+    </li>
+  </ul>
+</div>
+
+<div class="save">
+  <div class="save-bg"></div>
+  <div class="save-content">
+    <h2>Save Your Seat Now</h2>
+    <div class="save-sub">There Will Be A Maximum Limit Of 200 Seats To Maintain High Quality</div>
+    <div class="tz-block" style="margin-bottom:28px;">
+      <div class="tz-date" id="next-date2">Every Friday</div>
+      <ul class="tz-list">
+        <li><strong>Pacific Time:</strong> 7AM</li>
+        <li><strong>Mountain Time:</strong> 8AM</li>
+        <li><strong>Central Time:</strong> 9AM</li>
+        <li><strong>Eastern Time:</strong> 10AM</li>
+      </ul>
+    </div>
+    <div class="btn-main" onclick="document.getElementById('signup-modal').style.display='flex'" style="cursor:pointer;">
+      RSVP &amp; SIGN UP
+      <small>+ Get Your Free AI Visibility Score Instantly</small>
+    </div>
+  </div>
+</div>
+
+<div class="disclaimer">
+  <p><strong>Disclaimer:</strong> HeyPearl's live info sessions are live, one-time events with no replays, designed for agents serious about growing their business. The training shared is based on direct experience and results from working with agents across the country. Results are not typical, and there are no guarantees of success. Individual results will vary based on market conditions, existing online presence, effort, and skill. The strategies discussed are for educational purposes only.</p>
+  <p><strong>Live Only Disclaimer:</strong> There are no replays. No recordings. If you miss it, you miss it. By registering you agree to receive communications from HeyPearl and may unsubscribe at any time. <a href="/privacy">Privacy Policy</a> &middot; <a href="#">Terms of Service</a></p>
+</div>
+
+<script>
+  function nextFriNine() {
+    const now = new Date();
+    const cst = new Date(now.toLocaleString("en-US", {timeZone: "America/Chicago"}));
+    let days = (5 - cst.getDay() + 7) % 7;
+    if (days === 0 && cst.getHours() >= 9) days = 7;
+    const t = new Date(cst);
+    t.setDate(cst.getDate() + days);
+    t.setHours(9, 0, 0, 0);
+    const offset = now - cst;
+    return new Date(t.getTime() + offset);
+  }
+  const end = nextFriNine();
+  (function() {
+    const label = end.toLocaleDateString("en-US", {weekday: "long", month: "long", day: "numeric", timeZone: "America/Chicago"});
+    document.querySelectorAll("#next-date, #next-date2").forEach(function(el) { el.textContent = "Next Live: " + label; });
+  })();
+  function tick() {
+    const diff = Math.max(0, end - new Date());
+    const totalSecs = Math.floor(diff / 1000);
+    const hrs = Math.floor(totalSecs / 3600);
+    const mins = Math.floor((totalSecs % 3600) / 60);
+    const secs = totalSecs % 60;
+    document.getElementById('h').textContent = String(hrs).padStart(2,'0');
+    document.getElementById('m').textContent = String(mins).padStart(2,'0');
+    document.getElementById('s').textContent = String(secs).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 1000);
+</script>
+
+<div id="signup-modal" onclick="if(event.target===this)this.style.display='none'">
+  <div class="modal-card">
+    <button class="modal-close" onclick="document.getElementById('signup-modal').style.display='none'">&times;</button>
+    <h2>Save Your Free Seat</h2>
+    <p>Enter your details below and we'll send your confirmation + free AI Visibility Score instantly.</p>
+    <form onsubmit="handleSignup(event)">
+      <input class="modal-field" type="text" id="modal-name" placeholder="First Name" required />
+      <input class="modal-field" type="email" id="modal-email" placeholder="Email Address" required />
+      <input class="modal-field" type="tel" id="modal-phone" placeholder="Phone Number" required />
+      <button class="modal-submit" type="submit">RSVP &amp; SIGN UP &rarr;</button>
+    </form>
+    <p class="modal-legal">No spam. Unsubscribe anytime. Your seat is not guaranteed until confirmed.</p>
+  </div>
+</div>
+<script>
+async function handleSignup(e) {
+  e.preventDefault();
+  var btn = e.target.querySelector('button[type=submit]');
+  btn.textContent = 'Saving your seat...';
+  btn.disabled = true;
+  var name  = document.getElementById('modal-name').value.trim();
+  var email = document.getElementById('modal-email').value.trim();
+  var phone = document.getElementById('modal-phone').value.trim();
+  fetch('https://pearlos.ai/api/public/lead-capture', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: name, email: email, phone: phone, source: 'live' })
+  }).catch(function(){});
+  localStorage.setItem('ws_email', email);
+  localStorage.setItem('ws_name', name);
+  window.location.href = '/live/thankyou';
+}
+</script>
+
+</body>
+</html>`;
+
+  return new NextResponse(html, {
+    headers: { "Content-Type": "text/html; charset=utf-8" },
+  });
+}

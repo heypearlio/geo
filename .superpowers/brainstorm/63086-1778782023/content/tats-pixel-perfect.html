@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEO Free Workshop — heypearl.io/workshop</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Montserrat', Arial, sans-serif;
+    background: white;
+    color: #1a1a1a;
+  }
+
+  /* ── 1. TOP THIN DARK BANNER (like "Live 1-Day Workshop On May 12") ── */
+  .top-banner {
+    background: #1a2b4a;
+    color: white;
+    text-align: center;
+    padding: 11px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── 2. MAIN WHITE SECTION ── */
+  .main-white {
+    background: white;
+    /* faint watermark background like TATS */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='200'%3E%3Ctext x='50%25' y='60%25' text-anchor='middle' dominant-baseline='middle' font-size='120' font-weight='900' fill='%23f0f0f0' font-family='Arial'%3EHEYPEARL%3C/text%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center 60%;
+    background-size: 80%;
+    padding: 36px 24px 44px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
+
+  /* Countdown — just numbers, no box, on white (TATS style) */
+  .countdown-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 6px;
+    margin-bottom: 32px;
+  }
+  .cd-unit-wrap { text-align: center; }
+  .cd-number {
+    font-size: 52px;
+    font-weight: 900;
+    color: #1a2b4a;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    min-width: 60px;
+  }
+  .cd-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #888;
+    margin-top: 4px;
+  }
+  .cd-colon-wrap {
+    font-size: 44px;
+    font-weight: 900;
+    color: #1a2b4a;
+    padding-bottom: 14px;
+    line-height: 1;
+  }
+
+  /* Headline — "LIVE: Clone the exact..." */
+  .main-headline {
+    font-size: clamp(24px, 3.8vw, 36px);
+    font-weight: 900;
+    color: #1a1a1a;
+    line-height: 1.15;
+    max-width: 700px;
+    margin: 0 auto 24px;
+    text-align: center;
+  }
+  .main-headline .live-tag {
+    color: #E8185C;
+  }
+
+  /* Date + Time zones — vertical, centered */
+  .event-details {
+    margin: 0 auto 28px;
+    display: inline-block;
+    text-align: center;
+  }
+  .event-date {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+  }
+  .tz-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    text-align: center;
+  }
+  .tz-list li {
+    font-size: 15px;
+    color: #1a1a1a;
+    line-height: 1.6;
+  }
+  .tz-list li strong { font-weight: 800; }
+
+  /* CTA Button — dark navy rectangle like TATS */
+  .btn-rsvp {
+    display: inline-block;
+    background: #1a2b4a;
+    color: white;
+    font-size: 17px;
+    font-weight: 800;
+    padding: 18px 52px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    line-height: 1.2;
+    margin-top: 4px;
+  }
+  .btn-rsvp small {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 4px;
+    text-transform: none;
+    opacity: 0.8;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── 3. "WONDERING WHAT YOU'RE GOING TO SEE?" SECTION ── */
+  .pillars-section {
+    background: white;
+    padding: 0 0 48px;
+  }
+
+  /* Dark navy pill/rounded header bar — exactly like TATS */
+  .section-header-bar {
+    background: #1a2b4a;
+    color: white;
+    text-align: center;
+    padding: 18px 24px;
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 800;
+    margin-bottom: 36px;
+    border-radius: 0;
+  }
+
+  /* Two-column: photo LEFT, bullets RIGHT */
+  .two-col {
+    display: flex;
+    gap: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+    align-items: flex-start;
+  }
+  @media(max-width:640px) {
+    .two-col { flex-direction: column; }
+  }
+  .col-photo {
+    flex: 0 0 300px;
+    position: relative;
+  }
+  .col-photo img {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+    object-fit: cover;
+    max-height: 380px;
+  }
+  .col-bullets {
+    flex: 1;
+    padding-top: 4px;
+  }
+
+  /* Checkmark bullet list — exactly like TATS */
+  .check-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .check-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    font-size: 15px;
+    color: #1a1a1a;
+    line-height: 1.55;
+  }
+  .check-icon {
+    color: #1a2b4a;
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-weight: 900;
+  }
+  .check-item .label {
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #E8185C;
+  }
+  .check-item a, .check-item u {
+    color: #1a1a1a;
+    font-weight: 700;
+  }
+
+  /* ── 4. BONUSES SECTION ── */
+  .bonuses-section {
+    background: #f8fafc;
+    padding: 48px 24px;
+    text-align: center;
+    border-top: 1px solid #e2e8f0;
+  }
+  .bonuses-section .section-header-bar {
+    border-radius: 8px;
+    max-width: 700px;
+    margin: 0 auto 32px;
+  }
+  .bonus-list {
+    list-style: none;
+    max-width: 620px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .bonus-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #E8185C;
+    border-radius: 8px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-align: left;
+  }
+  .bonus-num {
+    background: #E8185C;
+    color: white;
+    font-size: 13px;
+    font-weight: 900;
+    min-width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .bonus-card strong { font-size: 14px; font-weight: 800; color: #1a1a1a; display: block; margin-bottom: 2px; }
+  .bonus-card span { font-size: 12px; color: #64748b; }
+
+  /* ── 5. SEAT LIMIT ── */
+  .seats-section {
+    background: #1a2b4a;
+    padding: 30px 24px;
+    text-align: center;
+  }
+  .seats-text {
+    color: white;
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .seats-sub { color: rgba(255,255,255,0.6); font-size: 13px; font-weight: 500; max-width: 440px; margin: 0 auto; line-height: 1.5; }
+
+  /* ── 6. BOTTOM CTA ── */
+  .bottom-section {
+    background: white;
+    padding: 56px 24px;
+    text-align: center;
+    border-top: 1px solid #eee;
+  }
+  .bottom-section h2 {
+    font-size: clamp(22px, 3.5vw, 30px);
+    font-weight: 900;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .bottom-section p { color: #64748b; font-size: 14px; margin-bottom: 24px; }
+
+  /* ── 7. DISCLAIMER ── */
+  .disclaimer {
+    background: #f1f5f9;
+    padding: 20px 24px;
+    text-align: center;
+    border-top: 1px solid #e2e8f0;
+  }
+  .disclaimer p { color: #94a3b8; font-size: 11px; line-height: 1.75; max-width: 600px; margin: 0 auto 6px; }
+  .disclaimer a { color: #64748b; }
+</style>
+</head>
+<body>
+
+<!-- ① THIN DARK TOP BANNER -->
+<div class="top-banner">
+  Free Live Workshop on AI Visibility for Real Estate Agents
+</div>
+
+<!-- ② MAIN WHITE SECTION: countdown → headline → time zones → CTA -->
+<div class="main-white">
+
+  <!-- Countdown: just numbers on white, no box -->
+  <div class="countdown-row">
+    <div class="cd-unit-wrap">
+      <div class="cd-number" id="d">00</div>
+      <div class="cd-label">Days</div>
+    </div>
+    <div class="cd-colon-wrap">:</div>
+    <div class="cd-unit-wrap">
+      <div class="cd-number" id="h">00</div>
+      <div class="cd-label">Hour</div>
+    </div>
+    <div class="cd-colon-wrap">:</div>
+    <div class="cd-unit-wrap">
+      <div class="cd-number" id="m">00</div>
+      <div class="cd-label">Minute</div>
+    </div>
+    <div class="cd-colon-wrap">:</div>
+    <div class="cd-unit-wrap">
+      <div class="cd-number" id="s">00</div>
+      <div class="cd-label">Second</div>
+    </div>
+  </div>
+
+  <!-- Headline: "LIVE: Clone The Exact System..." -->
+  <h1 class="main-headline">
+    <span class="live-tag">LIVE:</span> Clone The Exact System I'm Using to Get Recommended by AI and Generate Buyer Leads — Without Spending a Dollar on Ads
+  </h1>
+
+  <!-- Time zones — vertical, centered, bold labels + time -->
+  <div class="event-details">
+    <div class="event-date">Weekly Live Workshop</div>
+    <ul class="tz-list">
+      <li><strong>Pacific Time:</strong> 12PM</li>
+      <li><strong>Mountain Time:</strong> 1PM</li>
+      <li><strong>Central Time:</strong> 2PM</li>
+      <li><strong>Eastern Time:</strong> 3PM</li>
+    </ul>
+  </div>
+
+  <!-- CTA: dark navy rectangle, TATS style -->
+  <br/>
+  <div class="btn-rsvp">
+    RSVP &amp; SIGN UP
+    <small>+ Get Your Free AI Visibility Score Instantly</small>
+  </div>
+
+</div>
+
+<!-- ③ "WONDERING WHAT YOU'RE GOING TO SEE?" — dark header + 2-col layout -->
+<div class="pillars-section">
+  <div class="section-header-bar">Wondering What You're Going To See?</div>
+
+  <div class="two-col">
+    <!-- Photo left -->
+    <div class="col-photo">
+      <img src="speaker.png" alt="Free GEO Workshop" />
+    </div>
+
+    <!-- Checkmark bullets right -->
+    <div class="col-bullets">
+      <ul class="check-list">
+        <li class="check-item">
+          <span class="check-icon">✓</span>
+          <span><span class="label">REVEALED:</span> The exact signals ChatGPT, Google AI, and Perplexity use to decide which agent to recommend — and how to hit all of them in your market.</span>
+        </li>
+        <li class="check-item">
+          <span class="check-icon">✓</span>
+          <span>How I built the GEO system and helped agents across 50+ markets become the <u>AI-recommended agent in their city</u>. <strong>I'll help you clone it too.</strong></span>
+        </li>
+        <li class="check-item">
+          <span class="check-icon">✓</span>
+          <span><span class="label">LIVE:</span> How to get AI tools recommending you to <u>2–5 qualified buyers a day</u> — even if you have zero online presence right now.</span>
+        </li>
+        <li class="check-item">
+          <span class="check-icon">✓</span>
+          <span>How to lock down your market before a competitor does — and why the agents who act first <u>lock out everyone else permanently.</u></span>
+        </li>
+        <li class="check-item">
+          <span class="check-icon">✓</span>
+          <span>The done-for-you GEO engine: content, citations, Google Business Profile, AI signals — all handled for you without <u>lifting a finger.</u></span>
+        </li>
+        <li class="check-item">
+          <span class="check-icon">✓</span>
+          <span>Real agent results from real markets — <u>your live AI Visibility Score pulled on the call</u> so you can see exactly where you stand.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ④ BONUSES -->
+<div class="bonuses-section">
+  <div class="section-header-bar">Register Today and Also Get These 5 Free Bonuses</div>
+  <ul class="bonus-list">
+    <li class="bonus-card"><div class="bonus-num">1</div><div><strong>Your Free AI Visibility Score Report</strong><span>Instant, personalized — see exactly how AI ranks you in your market right now.</span></div></li>
+    <li class="bonus-card"><div class="bonus-num">2</div><div><strong>The AI Visibility Checklist PDF</strong><span>22 things every agent needs to show up in AI search results. Free.</span></div></li>
+    <li class="bonus-card"><div class="bonus-num">3</div><div><strong>Market Availability Check</strong><span>Find out if your zip code is still available or already locked by a competitor.</span></div></li>
+    <li class="bonus-card"><div class="bonus-num">4</div><div><strong>The "Show Up First" Swipe File</strong><span>Copy-paste content that trains AI tools to recommend you over every agent in your area.</span></div></li>
+    <li class="bonus-card"><div class="bonus-num">5</div><div><strong>Live Market Audit During the Workshop</strong><span>We pull your real numbers on the call. No guessing. Your market, your data.</span></div></li>
+  </ul>
+</div>
+
+<!-- ⑤ SEAT LIMIT -->
+<div class="seats-section">
+  <div class="seats-text">⚠️ Maximum Limit of 200 Seats</div>
+  <p class="seats-sub">This is a live-only training. No replay will be sent. Once seats are gone, registration closes.</p>
+</div>
+
+<!-- ⑥ BOTTOM CTA -->
+<div class="bottom-section">
+  <h2>Ready to Become the #1 AI-Recommended<br/>Agent in Your Market?</h2>
+  <p>Register below — 100% free. Just show up live.</p>
+  <div class="btn-rsvp">
+    YES — SAVE MY FREE SEAT NOW
+    <small>Live Training · No Replay · Limited Seats</small>
+  </div>
+</div>
+
+<!-- ⑦ DISCLAIMER -->
+<div class="disclaimer">
+  <p>Results are not typical. Individual results will vary based on your market, current online presence, and effort. This is a live training — no replay will be made available. By registering you agree to receive communications from HeyPearl and may unsubscribe at any time.</p>
+  <p><a href="/privacy">Privacy Policy</a> · <a href="#">Terms of Service</a></p>
+</div>
+
+<script>
+  function nextThursdayNoon() {
+    const now = new Date();
+    const pt = new Date(now.toLocaleString("en-US", {timeZone:"America/Los_Angeles"}));
+    let days = (4 - pt.getDay() + 7) % 7;
+    if (days === 0 && pt.getHours() >= 12) days = 7;
+    const t = new Date(pt);
+    t.setDate(pt.getDate() + days);
+    t.setHours(12, 0, 0, 0);
+    return t;
+  }
+  const end = nextThursdayNoon();
+  function tick() {
+    const diff = Math.max(0, end - new Date());
+    document.getElementById('d').textContent = String(Math.floor(diff/86400000)).padStart(2,'0');
+    document.getElementById('h').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+    document.getElementById('m').textContent = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    document.getElementById('s').textContent = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 1000);
+</script>
+</body>
+</html>

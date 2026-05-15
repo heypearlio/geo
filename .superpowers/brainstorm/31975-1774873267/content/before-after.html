@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #111827; padding: 24px; min-height: 100vh; }
+h2 { color: #fff; font-size: 18px; text-align: center; margin-bottom: 6px; font-weight: 700; }
+.sub { color: #6b7280; font-size: 13px; text-align: center; margin-bottom: 24px; }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.label { text-align: center; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+.label.old { color: #6b7280; }
+.label.new { color: #E8185C; }
+.frame { border-radius: 10px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+
+/* ---- OLD STYLE ---- */
+.old-shell { display: flex; height: 480px; }
+.old-nav { width: 52px; background: #0d1e36; display: flex; flex-direction: column; align-items: center; padding: 14px 0; gap: 18px; border-right: 1px solid #1e3354; }
+.old-dot { width: 6px; height: 6px; border-radius: 50%; background: #4A5E7A; }
+.old-dot.active { background: #E8185C; }
+.old-content { flex: 1; background: #F0F2F8; display: flex; flex-direction: column; }
+.old-topbar { height: 36px; background: #0d1e36; display: flex; align-items: center; padding: 0 14px; gap: 16px; border-bottom: 1px solid #1e3354; }
+.old-navitem { font-size: 11px; color: #9BACC0; font-weight: 500; }
+.old-navitem.active { color: #fff; border-bottom: 2px solid #E8185C; padding-bottom: 2px; }
+.old-body { padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.old-statrow { display: flex; gap: 0; background: #fff; border: 1px solid #E2E8F2; border-radius: 6px; overflow: hidden; }
+.old-stat { flex: 1; padding: 10px 14px; border-right: 1px solid #E2E8F2; }
+.old-stat:last-child { border-right: none; }
+.old-slabel { font-size: 8px; color: #8A9AB5; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; margin-bottom: 4px; }
+.old-sval { font-size: 18px; font-weight: 800; color: #0F1E3A; line-height: 1; }
+.old-ssub { font-size: 8px; color: #B0BDD0; margin-top: 2px; }
+.old-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 10px; }
+.old-card { background: #fff; border: 1px solid #E2E8F2; border-radius: 6px; overflow: hidden; }
+.old-row { padding: 9px 12px; border-bottom: 1px solid #F0F3F9; display: flex; justify-content: space-between; align-items: center; }
+.old-name { font-size: 11px; font-weight: 600; color: #0F1E3A; }
+.old-email { font-size: 9px; color: #8A9AB5; }
+.old-badge { font-size: 8px; font-weight: 700; padding: 2px 6px; border-radius: 3px; }
+
+/* ---- NEW STYLE ---- */
+.new-shell { display: flex; height: 480px; background: #fff; }
+.new-sidebar { width: 192px; background: #0F1E3A; display: flex; flex-direction: column; flex-shrink: 0; }
+.new-logo { padding: 22px 20px 18px; }
+.new-logo-text { color: #fff; font-size: 13px; font-weight: 800; letter-spacing: -0.02em; }
+.new-logo-sub { color: #4A5E7A; font-size: 10px; margin-top: 3px; }
+.new-nav { padding: 4px 12px; flex: 1; }
+.new-navitem { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 7px; font-size: 13px; color: #9BACC0; font-weight: 500; margin-bottom: 1px; cursor: pointer; }
+.new-navitem.active { background: rgba(255,255,255,0.08); color: #fff; font-weight: 600; }
+.new-navitem.active .ni-dot { background: #E8185C; }
+.ni-dot { width: 6px; height: 6px; border-radius: 50%; background: #2d4a6e; flex-shrink: 0; }
+.new-content { flex: 1; display: flex; flex-direction: column; background: #F8FAFC; overflow: hidden; }
+.new-header { padding: 22px 28px 14px; background: #fff; border-bottom: 1px solid #f1f5f9; flex-shrink: 0; display: flex; align-items: flex-end; justify-content: space-between; }
+.new-pagetitle { font-size: 20px; font-weight: 700; color: #0F1E3A; letter-spacing: -0.02em; }
+.new-pagesub { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+.new-searchbar { display: flex; align-items: center; gap: 8px; background: #F1F5F9; border-radius: 8px; padding: 7px 14px; font-size: 12px; color: #94a3b8; }
+.new-body { flex: 1; padding: 20px 28px; display: flex; flex-direction: column; gap: 18px; overflow-y: auto; }
+.new-seclabel { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 10px; }
+.new-statrow { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; }
+.new-statcard { background: #fff; border-radius: 10px; padding: 16px 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04); cursor: pointer; transition: box-shadow 0.15s; border: 1px solid rgba(0,0,0,0.04); }
+.new-slabel { font-size: 9px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+.new-sval { font-size: 24px; font-weight: 800; color: #0F1E3A; line-height: 1; letter-spacing: -0.03em; }
+.new-sval.green { color: #16a34a; }
+.new-sval.red { color: #dc2626; }
+.new-ssub { font-size: 10px; color: #cbd5e1; margin-top: 5px; }
+.new-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 12px; }
+.new-card { background: #fff; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04); overflow: hidden; border: 1px solid rgba(0,0,0,0.04); }
+.new-cardheader { padding: 12px 16px 10px; border-bottom: 1px solid #f8fafc; display: flex; justify-content: space-between; align-items: center; }
+.new-cardtitle { font-size: 11px; font-weight: 700; color: #0F1E3A; }
+.new-cardlink { font-size: 10px; color: #E8185C; font-weight: 600; cursor: pointer; }
+.new-row { padding: 11px 16px; border-bottom: 1px solid #f8fafc; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.new-row:hover { background: #f8fafc; }
+.new-name { font-size: 12px; font-weight: 600; color: #0F1E3A; }
+.new-email-text { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+.new-timebadge { font-size: 10px; font-weight: 600; color: #4A56C9; background: #EEF1FF; padding: 4px 10px; border-radius: 6px; white-space: nowrap; }
+.new-pill { font-size: 9px; font-weight: 700; padding: 3px 9px; border-radius: 20px; }
+.pill-hot { background: #dcfce7; color: #16a34a; }
+.pill-warm { background: #fff7ed; color: #ea580c; }
+</style>
+</head>
+<body>
+
+<h2>Current vs. Redesign</h2>
+<p class="sub">Same data. The difference is space, shadow, and typography weight.</p>
+
+<div class="split">
+
+  <!-- OLD -->
+  <div>
+    <div class="label old">Current Admin</div>
+    <div class="frame">
+      <div class="old-shell">
+        <div class="old-content">
+          <div class="old-topbar">
+            <span style="color:#E8185C;font-size:11px;font-weight:800;">GEO Admin</span>
+            <span class="old-navitem active">Activity</span>
+            <span class="old-navitem">Leads</span>
+            <span class="old-navitem">Campaigns</span>
+            <span class="old-navitem">Calls</span>
+            <span class="old-navitem">Enroll</span>
+          </div>
+          <div class="old-body">
+            <div style="font-size:13px;font-weight:700;color:#0F1E3A;">Activity <span style="font-size:10px;color:#8A9AB5;font-weight:400;margin-left:6px;">What's happening and what needs your attention.</span></div>
+            <div style="font-size:8px;color:#8A9AB5;text-transform:uppercase;letter-spacing:0.08em;font-weight:600;">Email</div>
+            <div class="old-statrow">
+              <div class="old-stat"><div class="old-slabel">Emails Sent</div><div class="old-sval">24</div><div class="old-ssub">Today</div></div>
+              <div class="old-stat"><div class="old-slabel">Open Rate</div><div class="old-sval" style="color:#16a34a;">38%</div><div class="old-ssub">30 days</div></div>
+              <div class="old-stat"><div class="old-slabel">Queue</div><div class="old-sval">1,204</div><div class="old-ssub">Pending</div></div>
+              <div class="old-stat"><div class="old-slabel">Bounces</div><div class="old-sval" style="color:#dc2626;">2</div><div class="old-ssub">24h</div></div>
+              <div class="old-stat"><div class="old-slabel">Unsub</div><div class="old-sval">0</div><div class="old-ssub">24h</div></div>
+            </div>
+            <div class="old-grid">
+              <div class="old-card">
+                <div class="old-row"><div><div class="old-name">Sarah Johnson</div><div class="old-email">sarah@realty.com</div></div><div style="font-size:9px;font-weight:600;color:#4A56C9;background:#EEF1FF;padding:2px 6px;border-radius:4px;">Today 2 PM</div></div>
+                <div class="old-row"><div><div class="old-name">Mike Torres</div><div class="old-email">mike@compass.com</div></div><div style="font-size:9px;font-weight:600;color:#4A56C9;background:#EEF1FF;padding:2px 6px;border-radius:4px;">Tomorrow</div></div>
+              </div>
+              <div class="old-card">
+                <div style="padding:6px 10px;background:#F8FAFD;border-bottom:1px solid #E2E8F2;display:flex;justify-content:space-between;"><span style="font-size:8px;color:#8A9AB5;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Email</span><span style="font-size:8px;color:#8A9AB5;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Clicks</span></div>
+                <div class="old-row"><span style="font-size:10px;color:#0F1E3A;">sarah@realty.com</span><span style="font-size:10px;color:#ea580c;font-weight:700;">8 🔥</span></div>
+                <div class="old-row"><span style="font-size:10px;color:#0F1E3A;">mike@compass.com</span><span style="font-size:10px;color:#f97316;font-weight:700;">5</span></div>
+                <div class="old-row"><span style="font-size:10px;color:#0F1E3A;">jenna@homesmart.com</span><span style="font-size:10px;color:#f97316;font-weight:700;">4</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW -->
+  <div>
+    <div class="label new">Redesign</div>
+    <div class="frame">
+      <div class="new-shell">
+        <div class="new-sidebar">
+          <div class="new-logo">
+            <div class="new-logo-text">GEO Admin</div>
+            <div class="new-logo-sub">heypearl.io</div>
+          </div>
+          <div class="new-nav">
+            <div class="new-navitem active"><div class="ni-dot"></div>Activity</div>
+            <div class="new-navitem"><div class="ni-dot"></div>Leads</div>
+            <div class="new-navitem"><div class="ni-dot"></div>Campaigns</div>
+            <div class="new-navitem"><div class="ni-dot"></div>Calls</div>
+            <div class="new-navitem"><div class="ni-dot"></div>Enroll</div>
+          </div>
+        </div>
+        <div class="new-content">
+          <div class="new-header">
+            <div>
+              <div class="new-pagetitle">Activity</div>
+              <div class="new-pagesub">What's happening and what needs your attention.</div>
+            </div>
+            <div class="new-searchbar">🔍 Search leads...</div>
+          </div>
+          <div class="new-body">
+            <div>
+              <div class="new-seclabel">Email</div>
+              <div class="new-statrow">
+                <div class="new-statcard"><div class="new-slabel">Emails Sent</div><div class="new-sval">24</div><div class="new-ssub">Today</div></div>
+                <div class="new-statcard"><div class="new-slabel">Open Rate</div><div class="new-sval green">38%</div><div class="new-ssub">30 days</div></div>
+                <div class="new-statcard"><div class="new-slabel">Queue</div><div class="new-sval">1,204</div><div class="new-ssub">Pending</div></div>
+                <div class="new-statcard"><div class="new-slabel">Bounces</div><div class="new-sval red">2</div><div class="new-ssub">24 hours</div></div>
+                <div class="new-statcard"><div class="new-slabel">Unsubscribed</div><div class="new-sval green">0</div><div class="new-ssub">24 hours</div></div>
+              </div>
+            </div>
+            <div class="new-grid">
+              <div>
+                <div class="new-seclabel">Appointments</div>
+                <div class="new-card">
+                  <div class="new-cardheader"><span class="new-cardtitle">Upcoming</span></div>
+                  <div class="new-row"><div><div class="new-name">Sarah Johnson</div><div class="new-email-text">sarah@realty.com</div></div><div class="new-timebadge">Today 2:00 PM</div></div>
+                  <div class="new-row"><div><div class="new-name">Mike Torres</div><div class="new-email-text">mike@compass.com</div></div><div class="new-timebadge">Tomorrow 10:30 AM</div></div>
+                  <div style="padding:8px 16px;font-size:10px;color:#d97706;font-weight:600;background:#fffbeb;border-top:1px solid #fde68a;">⚠ 1 call needs outcome</div>
+                </div>
+              </div>
+              <div>
+                <div class="new-seclabel">Active Clickers · last 7 days</div>
+                <div class="new-card">
+                  <div class="new-cardheader"><span class="new-cardtitle">Hot Leads</span><span class="new-cardlink">View all 18 →</span></div>
+                  <div class="new-row"><div class="new-name" style="font-size:11px;font-weight:500;">sarah@realty.com</div><span style="font-size:11px;font-weight:700;color:#ea580c;">8 🔥</span></div>
+                  <div class="new-row"><div class="new-name" style="font-size:11px;font-weight:500;">mike@compass.com</div><span style="font-size:11px;font-weight:700;color:#f97316;">5</span></div>
+                  <div class="new-row"><div class="new-name" style="font-size:11px;font-weight:500;">jenna@homesmart.com</div><span style="font-size:11px;font-weight:700;color:#f97316;">4</span></div>
+                  <div style="padding:9px 16px;font-size:10px;color:#94a3b8;text-align:center;background:#f8fafc;cursor:pointer;">+ 15 more</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p style="text-align:center;font-size:12px;color:#6b7280;margin-top:20px;font-family:system-ui;">Key changes: soft card shadows instead of flat borders · more breathing room · larger stat numbers · page title in content area · search bar in header · tighter sidebar</p>
+
+</body>
+</html>

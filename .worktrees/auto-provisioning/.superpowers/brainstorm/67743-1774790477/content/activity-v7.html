@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #EDF0FA; color: #0F1E3A; min-height: 100vh; }
+
+  .nav { background: #0F1E3A; height: 52px; display: flex; align-items: center; padding: 0 28px; gap: 2px; box-shadow: 0 2px 8px rgba(15,30,58,0.18); }
+  .nav-brand { color: #E8185C; font-weight: 800; font-size: 16px; margin-right: 32px; letter-spacing: -0.02em; }
+  .nav-link { color: #9BACC0; font-size: 13px; padding: 5px 13px; border-radius: 6px; cursor: pointer; }
+  .nav-link.active { color: #fff; font-weight: 600; background: rgba(255,255,255,0.1); }
+
+  .page { padding: 24px 30px; max-width: 1180px; }
+  .page-header { margin-bottom: 16px; }
+  .page-header h1 { font-size: 20px; font-weight: 700; color: #0F1E3A; margin-bottom: 2px; }
+  .page-header p { font-size: 12px; color: #6B7FA0; }
+
+  /* Health bar */
+  .health-bar { background: #fff; border: 1px solid #d6e4f0; border-left: 3px solid #22C55E; border-radius: 10px; padding: 10px 16px; display: flex; gap: 22px; align-items: center; font-size: 12px; flex-wrap: wrap; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(15,30,58,0.05); }
+  .health-item { color: #6B7FA0; }
+  .health-item strong { color: #0F1E3A; font-weight: 600; }
+  .health-link { color: #9BACC0; font-size: 11px; margin-left: auto; cursor: pointer; }
+
+  /* Stat cards */
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+  .stat-mini {
+    border-radius: 10px; padding: 14px 16px;
+    cursor: pointer; transition: box-shadow 0.15s, transform 0.1s;
+    border-left: 3px solid transparent;
+    box-shadow: 0 1px 4px rgba(15,30,58,0.07);
+  }
+  .stat-mini:hover { box-shadow: 0 4px 12px rgba(15,30,58,0.13); transform: translateY(-1px); }
+  .stat-mini .lbl { font-size: 10px; color: #7A8FAE; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; margin-bottom: 6px; }
+  .stat-mini .val { font-size: 26px; font-weight: 800; line-height: 1; }
+  .stat-mini .hint { font-size: 10px; margin-top: 4px; }
+
+  /* Individual card colors */
+  .card-leads    { background: #FEF0F4; border-color: #E8185C; }
+  .card-leads .val { color: #E8185C; }
+  .card-leads .hint { color: #E8185Caa; }
+
+  .card-email    { background: #F0F4FF; border-color: #6470E8; }
+  .card-email .val { color: #4A56C9; }
+  .card-email .hint { color: #6470E8aa; }
+
+  .card-hot      { background: #FFF5EE; border-color: #ea580c; }
+  .card-hot .val { color: #ea580c; }
+  .card-hot .hint { color: #ea580caa; }
+
+  .card-clear    { background: #F0FDF5; border-color: #22C55E; }
+  .card-clear .val { color: #16a34a; font-size: 18px; padding-top: 4px; }
+  .card-clear .hint { color: #9BACC0; }
+
+  /* Sources + open rate */
+  .section-label { font-size: 10px; color: #9BACC0; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px; }
+  .sources-row { display: grid; grid-template-columns: repeat(4, 1fr) 155px; gap: 10px; margin-bottom: 14px; }
+
+  .source-card { background: #1a2e4a; border-radius: 10px; padding: 13px 15px; color: #F7F8FC; cursor: pointer; transition: opacity 0.15s; }
+  .source-card:hover { opacity: 0.88; }
+  .source-name { font-size: 11px; color: #7A94AE; font-weight: 600; margin-bottom: 9px; }
+  .source-stats { display: flex; gap: 12px; }
+  .source-stat .n { font-size: 18px; font-weight: 800; line-height: 1; color: #F7F8FC; }
+  .source-stat .l { font-size: 9px; color: #4A5E7A; margin-top: 2px; }
+
+  .open-rate-card { background: #F0FDF5; border: 1px solid #bbf7d0; border-left: 3px solid #22C55E; border-radius: 10px; padding: 13px 15px; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 1px 3px rgba(15,30,58,0.05); }
+  .open-rate-label { font-size: 10px; color: #7A8FAE; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; margin-bottom: 6px; }
+  .open-rate-value { font-size: 30px; font-weight: 800; line-height: 1; color: #16a34a; }
+  .open-rate-sub { font-size: 10px; color: #9BACC0; margin-top: 5px; }
+
+  /* Two-col layout */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* Panel label */
+  .panel-label { font-size: 10px; color: #9BACC0; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+
+  /* Upcoming appointments */
+  .upcoming-wrap { background: #fff; border: 1px solid #d6e4f0; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(15,30,58,0.06); margin-bottom: 10px; }
+  .upcoming-item { display: grid; grid-template-columns: 1fr auto; padding: 13px 16px; align-items: center; border-bottom: 1px solid #EDF0FA; }
+  .upcoming-item:last-child { border-bottom: none; }
+  .upcoming-empty { padding: 18px 16px; color: #9BACC0; font-size: 12px; text-align: center; }
+  .u-name { font-weight: 600; font-size: 13px; color: #0F1E3A; }
+  .u-email { font-size: 10px; color: #9BACC0; margin-top: 1px; }
+  .u-when { font-size: 11px; font-weight: 600; color: #4A56C9; background: #F0F4FF; padding: 4px 10px; border-radius: 6px; white-space: nowrap; }
+
+  /* Outcome summary chips */
+  .outcome-row { display: flex; gap: 8px; }
+  .outcome-chip { flex: 1; background: #fff; border: 1px solid #dde3f0; border-radius: 10px; padding: 11px 14px; cursor: pointer; transition: box-shadow 0.15s; box-shadow: 0 1px 3px rgba(15,30,58,0.05); }
+  .outcome-chip:hover { box-shadow: 0 3px 10px rgba(15,30,58,0.12); }
+  .chip-lbl { font-size: 10px; color: #9BACC0; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-bottom: 5px; }
+  .chip-count { font-size: 22px; font-weight: 800; line-height: 1; }
+  .chip-names { font-size: 10px; color: #9BACC0; margin-top: 3px; }
+
+  .chip-purchased { border-color: #bbf7d0; border-left: 3px solid #22C55E; background: #F0FDF5; }
+  .chip-purchased .chip-count { color: #16a34a; }
+  .chip-noshow { border-color: #fecaca; border-left: 3px solid #EF4444; background: #FFF5F5; }
+  .chip-noshow .chip-count { color: #dc2626; }
+  .chip-clients { border-color: #bfdbfe; border-left: 3px solid #6470E8; background: #F0F4FF; }
+  .chip-clients .chip-count { color: #4A56C9; }
+
+  /* Hot leads table */
+  .table-wrap { background: #fff; border: 1px solid #d6e4f0; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(15,30,58,0.06); }
+  .t-head { display: grid; padding: 8px 14px; background: #EDF0FA; border-bottom: 1px solid #dde3f0; }
+  .t-head span { font-size: 10px; color: #9BACC0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+  .t-row { display: grid; padding: 11px 14px; border-bottom: 1px solid #EDF0FA; align-items: center; font-size: 12px; cursor: pointer; transition: background 0.1s; }
+  .t-row:last-child { border-bottom: none; }
+  .t-row:hover { background: #EDF0FA; }
+  .hot-cols { grid-template-columns: 1fr 55px 90px; }
+  .rname { font-weight: 600; color: #0F1E3A; font-size: 11px; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <span class="nav-brand">GEO Admin</span>
+  <span class="nav-link active">Activity</span>
+  <span class="nav-link">Leads</span>
+  <span class="nav-link">Campaigns</span>
+  <span class="nav-link">Calls</span>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <h1>Activity</h1>
+    <p>What's happening and what needs your attention.</p>
+  </div>
+
+  <!-- HEALTH -->
+  <div class="health-bar">
+    <span style="color:#16a34a;font-weight:700;font-size:12px">✅ Email Healthy</span>
+    <span class="health-item">Queue: <strong>2,802</strong> pending</span>
+    <span class="health-item">Bounces (24h): <strong>0</strong></span>
+    <span class="health-item">Complaints (24h): <strong>0</strong></span>
+    <a class="health-link">Details →</a>
+  </div>
+
+  <!-- STATS -->
+  <div class="stat-row">
+    <div class="stat-mini card-leads">
+      <div class="lbl">New Leads</div>
+      <div class="val">3</div>
+      <div class="hint">↗ Last 7 days</div>
+    </div>
+    <div class="stat-mini card-email">
+      <div class="lbl">Emails Sent</div>
+      <div class="val">12</div>
+      <div class="hint">↗ Email log</div>
+    </div>
+    <div class="stat-mini card-hot">
+      <div class="lbl">Hot Leads</div>
+      <div class="val">47</div>
+      <div class="hint">↗ Reach out today</div>
+    </div>
+    <div class="stat-mini card-clear">
+      <div class="lbl">Needs Action</div>
+      <div class="val">All clear ✓</div>
+      <div class="hint">No pending outcomes</div>
+    </div>
+  </div>
+
+  <!-- SOURCES + OPEN RATE -->
+  <div class="section-label">Where Leads Are Coming From — Last 30 Days</div>
+  <div class="sources-row">
+    <div class="source-card">
+      <div class="source-name">Audit (/score)</div>
+      <div class="source-stats">
+        <div class="source-stat"><div class="n">24</div><div class="l">leads</div></div>
+        <div class="source-stat"><div class="n" style="color:#4ade80">4</div><div class="l">booked</div></div>
+        <div class="source-stat"><div class="n" style="color:#FBBF24">17%</div><div class="l">conv.</div></div>
+      </div>
+    </div>
+    <div class="source-card">
+      <div class="source-name">Claim Form</div>
+      <div class="source-stats">
+        <div class="source-stat"><div class="n">5</div><div class="l">leads</div></div>
+        <div class="source-stat"><div class="n" style="color:#4ade80">1</div><div class="l">booked</div></div>
+        <div class="source-stat"><div class="n" style="color:#FBBF24">20%</div><div class="l">conv.</div></div>
+      </div>
+    </div>
+    <div class="source-card">
+      <div class="source-name">Calendly</div>
+      <div class="source-stats">
+        <div class="source-stat"><div class="n">5</div><div class="l">leads</div></div>
+        <div class="source-stat"><div class="n" style="color:#4ade80">5</div><div class="l">booked</div></div>
+        <div class="source-stat"><div class="n" style="color:#22C55E">100%</div><div class="l">conv.</div></div>
+      </div>
+    </div>
+    <div class="source-card">
+      <div class="source-name">Import</div>
+      <div class="source-stats">
+        <div class="source-stat"><div class="n">8</div><div class="l">leads</div></div>
+        <div class="source-stat"><div class="n" style="color:#7A94AE">0</div><div class="l">booked</div></div>
+        <div class="source-stat"><div class="n" style="color:#7A94AE">0%</div><div class="l">conv.</div></div>
+      </div>
+    </div>
+    <div class="open-rate-card">
+      <div class="open-rate-label">Open Rate</div>
+      <div class="open-rate-value">47%</div>
+      <div class="open-rate-sub">unique · 30-day avg</div>
+    </div>
+  </div>
+
+  <!-- APPOINTMENTS + HOT LEADS -->
+  <div class="two-col">
+
+    <!-- LEFT: Appointments -->
+    <div>
+      <div class="panel-label"><span>Upcoming Appointments</span></div>
+      <div class="upcoming-wrap">
+        <div class="upcoming-item">
+          <div>
+            <div class="u-name">Timothy</div>
+            <div class="u-email">bowenregroup@gmail.com</div>
+          </div>
+          <div class="u-when">Tomorrow 9am</div>
+        </div>
+        <!-- If no upcoming: -->
+        <!-- <div class="upcoming-empty">No upcoming appointments</div> -->
+      </div>
+
+      <div class="panel-label" style="margin-top:12px"><span>Recent Outcomes</span></div>
+      <div class="outcome-row">
+        <div class="outcome-chip chip-purchased">
+          <div class="chip-lbl">Purchased</div>
+          <div class="chip-count">1 🎉</div>
+          <div class="chip-names">Pam · Mar 26</div>
+        </div>
+        <div class="outcome-chip chip-noshow">
+          <div class="chip-lbl">No Shows</div>
+          <div class="chip-count">2</div>
+          <div class="chip-names">Denise, Gouri</div>
+        </div>
+        <div class="outcome-chip chip-clients">
+          <div class="chip-lbl">Total Clients</div>
+          <div class="chip-count">4</div>
+          <div class="chip-names">All time</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Hot Leads -->
+    <div>
+      <div class="panel-label">
+        <span>🔥 Hot Leads <span style="color:#9BACC0;font-weight:400;font-size:10px;text-transform:none">2+ clicks · not booked</span></span>
+        <span style="color:#E8185C;font-size:10px;cursor:pointer">View all 47 →</span>
+      </div>
+      <div class="table-wrap">
+        <div class="t-head hot-cols">
+          <span>Email</span><span>Clicks</span><span>Series</span>
+        </div>
+        <div class="t-row hot-cols">
+          <div><div class="rname">lwaxter@piattsir.com</div></div>
+          <div style="color:#ea580c;font-weight:700">9 🔥</div>
+          <div style="color:#E8185C;font-size:10px;cursor:pointer;text-decoration:underline">lead_nurture →</div>
+        </div>
+        <div class="t-row hot-cols">
+          <div><div class="rname">tammiem@johnlscott.com</div></div>
+          <div style="color:#ea580c;font-weight:700">9 🔥</div>
+          <div style="color:#E8185C;font-size:10px;cursor:pointer;text-decoration:underline">lead_nurture →</div>
+        </div>
+        <div class="t-row hot-cols">
+          <div><div class="rname">amccarley@xperthomelending.com</div></div>
+          <div style="color:#ea580c;font-weight:700">6 🔥</div>
+          <div style="color:#E8185C;font-size:10px;cursor:pointer;text-decoration:underline">lead_nurture →</div>
+        </div>
+        <div class="t-row hot-cols">
+          <div><div class="rname">scott@louisvillerealestate.com</div></div>
+          <div style="color:#f97316;font-weight:700">4</div>
+          <div style="color:#E8185C;font-size:10px;cursor:pointer;text-decoration:underline">lead_nurture →</div>
+        </div>
+        <div class="t-row hot-cols" style="background:#EDF0FA">
+          <div style="grid-column:1/-1;text-align:center;color:#9BACC0;font-size:11px">+ 43 more · click to view all</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

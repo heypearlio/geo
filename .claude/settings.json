@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); echo \"$input\" | jq -r '.tool_input.command // \"\"' | grep -q 'vercel --prod' || exit 0; cd /Users/mistibruton/Desktop/geo-landing && npm run build",
+            "statusMessage": "Running npm run build before deploy..."
+          }
+        ]
+      }
+    ]
+  }
+}

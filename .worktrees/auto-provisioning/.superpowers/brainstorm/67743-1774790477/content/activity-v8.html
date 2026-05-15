@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #F0F2F8; color: #0F1E3A; min-height: 100vh; }
+
+  .nav { background: #0F1E3A; height: 52px; display: flex; align-items: center; padding: 0 32px; gap: 2px; }
+  .nav-brand { color: #E8185C; font-weight: 800; font-size: 15px; margin-right: 36px; letter-spacing: -0.02em; }
+  .nav-link { color: #6B85A0; font-size: 13px; padding: 5px 13px; border-radius: 5px; cursor: pointer; }
+  .nav-link.active { color: #fff; font-weight: 600; }
+
+  .page { padding: 28px 32px; max-width: 1160px; }
+
+  .page-header { margin-bottom: 20px; }
+  .page-header h1 { font-size: 18px; font-weight: 700; color: #0F1E3A; }
+  .page-header p { font-size: 12px; color: #8A9AB5; margin-top: 2px; }
+
+  /* ── Health strip ── */
+  .health { background: #fff; border: 1px solid #E2E8F2; border-radius: 10px; padding: 10px 20px; display: flex; align-items: center; gap: 6px; font-size: 12px; color: #8A9AB5; margin-bottom: 16px; }
+  .health-status { color: #16a34a; font-weight: 700; font-size: 12px; margin-right: 10px; }
+  .health-dot { width: 3px; height: 3px; border-radius: 50%; background: #CBD5E1; }
+  .health strong { color: #0F1E3A; font-weight: 600; }
+  .health-link { margin-left: auto; color: #9BACC0; font-size: 11px; cursor: pointer; }
+
+  /* ── Stat strip ── */
+  .stat-strip { background: #fff; border: 1px solid #E2E8F2; border-radius: 10px; display: flex; margin-bottom: 16px; overflow: hidden; }
+  .stat-item { flex: 1; padding: 18px 22px; border-right: 1px solid #E2E8F2; cursor: pointer; transition: background 0.12s; }
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { background: #F8FAFD; }
+  .stat-lbl { font-size: 10px; color: #8A9AB5; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; margin-bottom: 8px; }
+  .stat-val { font-size: 28px; font-weight: 800; line-height: 1; color: #0F1E3A; }
+  .stat-sub { font-size: 10px; color: #B0BDD0; margin-top: 5px; }
+
+  /* ── Section header ── */
+  .sec-hd { font-size: 10px; color: #8A9AB5; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+  .sec-hd a { color: #E8185C; font-size: 10px; cursor: pointer; text-transform: none; letter-spacing: 0; font-weight: 500; }
+
+  /* ── Sources table ── */
+  .sources-table { background: #fff; border: 1px solid #E2E8F2; border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+  .src-head { display: grid; grid-template-columns: 1fr 80px 80px 80px 100px; padding: 9px 18px; background: #F8FAFD; border-bottom: 1px solid #E2E8F2; }
+  .src-head span { font-size: 10px; color: #8A9AB5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+  .src-head span:not(:first-child) { text-align: right; }
+  .src-row { display: grid; grid-template-columns: 1fr 80px 80px 80px 100px; padding: 13px 18px; border-bottom: 1px solid #F0F3F9; align-items: center; cursor: pointer; transition: background 0.1s; }
+  .src-row:last-child { border-bottom: none; }
+  .src-row:hover { background: #F8FAFD; }
+  .src-name { font-size: 13px; font-weight: 600; color: #0F1E3A; }
+  .src-num { font-size: 13px; font-weight: 600; text-align: right; }
+  .src-sub { font-size: 10px; color: #8A9AB5; margin-top: 1px; text-align: right; }
+
+  /* Open rate inline badge */
+  .open-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; }
+  .open-num { font-size: 16px; font-weight: 800; color: #16a34a; }
+  .open-lbl { font-size: 10px; color: #8A9AB5; }
+
+  /* ── Two col ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  /* ── Panel ── */
+  .panel { background: #fff; border: 1px solid #E2E8F2; border-radius: 10px; overflow: hidden; }
+
+  .panel-head { padding: 12px 18px; border-bottom: 1px solid #F0F3F9; display: flex; justify-content: space-between; align-items: center; }
+  .panel-title { font-size: 12px; font-weight: 700; color: #0F1E3A; }
+  .panel-sub { font-size: 10px; color: #8A9AB5; }
+  .panel-action { font-size: 10px; color: #E8185C; cursor: pointer; font-weight: 500; }
+
+  /* Upcoming row */
+  .appt-row { display: flex; justify-content: space-between; align-items: center; padding: 13px 18px; border-bottom: 1px solid #F0F3F9; cursor: pointer; transition: background 0.1s; }
+  .appt-row:last-child { border-bottom: none; }
+  .appt-row:hover { background: #F8FAFD; }
+  .appt-name { font-size: 13px; font-weight: 600; color: #0F1E3A; }
+  .appt-email { font-size: 10px; color: #8A9AB5; margin-top: 1px; }
+  .appt-when { font-size: 11px; font-weight: 600; color: #4A56C9; white-space: nowrap; }
+  .appt-empty { padding: 20px 18px; font-size: 12px; color: #8A9AB5; text-align: center; }
+
+  /* Outcome mini row */
+  .outcome-strip { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .outcome-cell { padding: 14px 18px; border-right: 1px solid #F0F3F9; cursor: pointer; transition: background 0.1s; }
+  .outcome-cell:last-child { border-right: none; }
+  .outcome-cell:hover { background: #F8FAFD; }
+  .oc-lbl { font-size: 10px; color: #8A9AB5; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-bottom: 5px; }
+  .oc-val { font-size: 20px; font-weight: 800; line-height: 1; }
+  .oc-names { font-size: 10px; color: #8A9AB5; margin-top: 3px; }
+
+  /* Hot leads table */
+  .hot-head { display: grid; grid-template-columns: 1fr 55px 95px; padding: 9px 18px; background: #F8FAFD; border-bottom: 1px solid #E2E8F2; }
+  .hot-head span { font-size: 10px; color: #8A9AB5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+  .hot-row { display: grid; grid-template-columns: 1fr 55px 95px; padding: 11px 18px; border-bottom: 1px solid #F0F3F9; align-items: center; cursor: pointer; transition: background 0.1s; }
+  .hot-row:last-child { border-bottom: none; }
+  .hot-row:hover { background: #F8FAFD; }
+  .hot-email { font-size: 11px; font-weight: 500; color: #0F1E3A; }
+  .hot-more { padding: 10px 18px; font-size: 11px; color: #8A9AB5; text-align: center; background: #F8FAFD; border-top: 1px solid #F0F3F9; cursor: pointer; }
+  .hot-more:hover { color: #E8185C; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <span class="nav-brand">GEO Admin</span>
+  <span class="nav-link active">Activity</span>
+  <span class="nav-link">Leads</span>
+  <span class="nav-link">Campaigns</span>
+  <span class="nav-link">Calls</span>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <h1>Activity</h1>
+    <p>What's happening and what needs your attention.</p>
+  </div>
+
+  <!-- Health strip -->
+  <div class="health">
+    <span class="health-status">✅ Email Healthy</span>
+    <span class="health-dot"></span>
+    <span>Queue: <strong>2,802</strong> pending</span>
+    <span class="health-dot"></span>
+    <span>Bounces (24h): <strong>0</strong></span>
+    <span class="health-dot"></span>
+    <span>Complaints (24h): <strong>0</strong></span>
+    <a class="health-link">Details →</a>
+  </div>
+
+  <!-- Stat strip -->
+  <div class="stat-strip">
+    <div class="stat-item">
+      <div class="stat-lbl">New Leads</div>
+      <div class="stat-val" style="color:#E8185C">3</div>
+      <div class="stat-sub">↗ Last 7 days</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-lbl">Emails Sent</div>
+      <div class="stat-val">12</div>
+      <div class="stat-sub">↗ View log</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-lbl">Hot Leads</div>
+      <div class="stat-val" style="color:#ea580c">47</div>
+      <div class="stat-sub">↗ Reach out today</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-lbl">Open Rate</div>
+      <div class="stat-val" style="color:#16a34a">47%</div>
+      <div class="stat-sub">unique · 30-day avg</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-lbl">Needs Action</div>
+      <div class="stat-val" style="font-size:16px;padding-top:6px;color:#16a34a">All clear ✓</div>
+      <div class="stat-sub">No pending outcomes</div>
+    </div>
+  </div>
+
+  <!-- Appointments + Hot Leads -->
+  <div class="two-col">
+
+    <!-- Appointments -->
+    <div>
+      <div class="sec-hd"><span>Upcoming Appointments</span></div>
+      <div class="panel">
+        <div class="appt-row">
+          <div>
+            <div class="appt-name">Timothy</div>
+            <div class="appt-email">bowenregroup@gmail.com</div>
+          </div>
+          <div class="appt-when">Tomorrow 9am</div>
+        </div>
+        <div class="appt-empty">No other upcoming appointments</div>
+      </div>
+
+    </div>
+
+    <!-- Hot Leads -->
+    <div>
+      <div class="sec-hd">
+        <span>🔥 Hot Leads <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#B0BDD0">2+ clicks · not booked</span></span>
+        <a>View all 47 →</a>
+      </div>
+      <div class="panel">
+        <div class="hot-head">
+          <span>Email</span><span>Clicks</span><span>Series</span>
+        </div>
+        <div class="hot-row">
+          <div class="hot-email">lwaxter@piattsir.com</div>
+          <div style="color:#ea580c;font-weight:700;font-size:12px">9 🔥</div>
+          <div style="color:#E8185C;font-size:10px;text-decoration:underline;cursor:pointer">lead_nurture →</div>
+        </div>
+        <div class="hot-row">
+          <div class="hot-email">tammiem@johnlscott.com</div>
+          <div style="color:#ea580c;font-weight:700;font-size:12px">9 🔥</div>
+          <div style="color:#E8185C;font-size:10px;text-decoration:underline;cursor:pointer">lead_nurture →</div>
+        </div>
+        <div class="hot-row">
+          <div class="hot-email">amccarley@xperthomelending.com</div>
+          <div style="color:#ea580c;font-weight:700;font-size:12px">6 🔥</div>
+          <div style="color:#E8185C;font-size:10px;text-decoration:underline;cursor:pointer">lead_nurture →</div>
+        </div>
+        <div class="hot-row">
+          <div class="hot-email">scott@louisvillerealestate.com</div>
+          <div style="color:#f97316;font-weight:700;font-size:12px">4</div>
+          <div style="color:#E8185C;font-size:10px;text-decoration:underline;cursor:pointer">lead_nurture →</div>
+        </div>
+        <div class="hot-more">+ 43 more · click to view all</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Sources — compact secondary -->
+  <div class="sec-hd" style="margin-top:20px"><span>Lead Sources — Last 30 Days</span></div>
+  <div style="background:#fff;border:1px solid #E2E8F2;border-radius:10px;overflow:hidden;">
+    <div style="display:grid;grid-template-columns:1fr 60px 60px 60px;padding:8px 16px;background:#F8FAFD;border-bottom:1px solid #E2E8F2;">
+      <span style="font-size:10px;color:#8A9AB5;font-weight:600;text-transform:uppercase;letter-spacing:0.05em">Source</span>
+      <span style="font-size:10px;color:#8A9AB5;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;text-align:right">Leads</span>
+      <span style="font-size:10px;color:#8A9AB5;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;text-align:right">Booked</span>
+      <span style="font-size:10px;color:#8A9AB5;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;text-align:right">Conv.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 60px 60px 60px;padding:9px 16px;border-bottom:1px solid #F0F3F9;align-items:center;">
+      <span style="font-size:12px;color:#0F1E3A;font-weight:500">Audit (/score)</span>
+      <span style="font-size:12px;font-weight:600;text-align:right;color:#0F1E3A">24</span>
+      <span style="font-size:12px;font-weight:600;text-align:right;color:#16a34a">4</span>
+      <span style="font-size:12px;font-weight:600;text-align:right;color:#d97706">17%</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 60px 60px 60px;padding:9px 16px;border-bottom:1px solid #F0F3F9;align-items:center;">
+      <span style="font-size:12px;color:#0F1E3A;font-weight:500">Claim Form</span>
+      <span style="font-size:12px;font-weight:600;text-align:right;color:#0F1E3A">5</span>
+      <span style="font-size:12px;font-weight:600;text-align:right;color:#16a34a">1</span>
+      <span style="font-size:12px;font-weight:600;text-align:right;color:#d97706">20%</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 60px 60px 60px;padding:9px 16px;border-bottom:1px solid #F0F3F9;align-items:center;">
+      <span style="font-size:12px;color:#0F1E3A;font-weight:500">Calendly</span>
+      <span style="font-size:12px;font-weight:600;text-align:right;color:#0F1E3A">5</span>
+      <span style="font-size:12px;font-weight:600;text-align:right;color:#16a34a">5</span>
+      <span style="font-size:12px;font-weight:600;text-align:right;color:#16a34a">100%</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 60px 60px 60px;padding:9px 16px;align-items:center;">
+      <span style="font-size:12px;color:#0F1E3A;font-weight:500">Import</span>
+      <span style="font-size:12px;font-weight:600;text-align:right;color:#0F1E3A">8</span>
+      <span style="font-size:12px;font-weight:600;text-align:right;color:#8A9AB5">0</span>
+      <span style="font-size:12px;font-weight:600;text-align:right;color:#8A9AB5">0%</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

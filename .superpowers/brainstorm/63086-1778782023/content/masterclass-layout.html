@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEO Masterclass Funnel — Layout Mockup</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Arial Black', Arial, sans-serif; background: #f0f0f0; }
+
+  .mockup-wrapper {
+    max-width: 780px;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  /* NAV */
+  .nav {
+    background: #0F1E3A;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav .logo {
+    color: white;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 1px;
+  }
+  .nav .logo span { color: #E8185C; }
+  .nav .sticky-cta {
+    background: #E8185C;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ANNOUNCEMENT BANNER */
+  .announcement {
+    background: #E8185C;
+    color: white;
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* HERO */
+  .hero {
+    background: #0F1E3A;
+    padding: 48px 32px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(232,24,92,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero .tag {
+    display: inline-block;
+    background: rgba(232,24,92,0.2);
+    border: 1px solid rgba(232,24,92,0.5);
+    color: #E8185C;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    color: white;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.15;
+    max-width: 600px;
+    margin: 0 auto 16px;
+  }
+  .hero h1 span { color: #E8185C; }
+  .hero .subhead {
+    color: rgba(255,255,255,0.7);
+    font-size: 15px;
+    font-weight: 400;
+    max-width: 520px;
+    margin: 0 auto 28px;
+    line-height: 1.5;
+  }
+
+  /* SPEAKER PHOTO AREA */
+  .speaker-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .speaker-photo {
+    width: 180px;
+    height: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 3px solid #E8185C;
+    flex-shrink: 0;
+  }
+  .speaker-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .speaker-details {
+    text-align: left;
+    color: white;
+  }
+  .speaker-details .name {
+    font-size: 20px;
+    font-weight: 900;
+    color: white;
+    margin-bottom: 4px;
+  }
+  .speaker-details .title {
+    font-size: 13px;
+    color: #E8185C;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .speaker-details .cred {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.5;
+  }
+
+  .cta-primary {
+    display: inline-block;
+    background: #E8185C;
+    color: white;
+    font-size: 17px;
+    font-weight: 900;
+    padding: 16px 40px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+    box-shadow: 0 6px 30px rgba(232,24,92,0.45);
+    cursor: pointer;
+  }
+  .cta-note {
+    color: rgba(255,255,255,0.5);
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  /* COUNTDOWN */
+  .countdown {
+    background: #0a1628;
+    padding: 24px 32px;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .countdown .label {
+    color: rgba(255,255,255,0.5);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  .countdown-boxes {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+  .countdown-box {
+    text-align: center;
+  }
+  .countdown-box .num {
+    background: #1a2d50;
+    border: 1px solid rgba(232,24,92,0.3);
+    color: white;
+    font-size: 28px;
+    font-weight: 900;
+    width: 66px;
+    height: 66px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .countdown-box .unit {
+    color: rgba(255,255,255,0.4);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 6px;
+  }
+  .colon {
+    color: rgba(255,255,255,0.3);
+    font-size: 28px;
+    font-weight: 900;
+    align-self: center;
+    padding-bottom: 16px;
+  }
+
+  /* WHAT YOU'LL LEARN */
+  .learn-section {
+    background: #EDF0FA;
+    padding: 48px 32px;
+  }
+  .learn-section h2 {
+    color: #0F1E3A;
+    font-size: 24px;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .learn-section .sub {
+    color: #64748b;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .bullet-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .bullet-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: white;
+    padding: 16px 20px;
+    border-radius: 10px;
+    border-left: 4px solid #E8185C;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .bullet-list li .icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .bullet-list li .text {
+    color: #0F1E3A;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .bullet-list li .text span {
+    display: block;
+    color: #64748b;
+    font-weight: 400;
+    font-size: 13px;
+    margin-top: 2px;
+  }
+
+  /* SCARCITY */
+  .scarcity {
+    background: #0F1E3A;
+    padding: 28px 32px;
+    text-align: center;
+    border-top: 3px solid #E8185C;
+  }
+  .scarcity .flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(232,24,92,0.15);
+    border: 1px solid rgba(232,24,92,0.4);
+    color: #E8185C;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 8px 20px;
+    border-radius: 100px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .scarcity p {
+    color: rgba(255,255,255,0.65);
+    font-size: 13px;
+  }
+
+  /* BOTTOM CTA */
+  .bottom-cta {
+    background: #EDF0FA;
+    padding: 48px 32px;
+    text-align: center;
+  }
+  .bottom-cta h2 {
+    color: #0F1E3A;
+    font-size: 22px;
+    font-weight: 900;
+    margin-bottom: 10px;
+  }
+  .bottom-cta p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  /* DISCLAIMER */
+  .disclaimer {
+    background: #0a1628;
+    padding: 20px 32px;
+    text-align: center;
+  }
+  .disclaimer p {
+    color: rgba(255,255,255,0.3);
+    font-size: 11px;
+    line-height: 1.6;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  /* SECTION LABELS for review */
+  .section-label {
+    position: relative;
+  }
+  .section-label::after {
+    content: attr(data-label);
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: monospace;
+  }
+
+  .page-title {
+    padding: 20px 24px 8px;
+    font-family: system-ui, sans-serif;
+  }
+  .page-title h2 {
+    font-size: 18px;
+    color: #111;
+    margin-bottom: 4px;
+  }
+  .page-title p {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 16px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  <h2>GEO Free Masterclass Funnel — Layout Mockup</h2>
+  <p>TATS-style flow with GEO brand colors (pink #E8185C + navy #0F1E3A). Scroll to see full page. This is the proposed section order.</p>
+</div>
+
+<div class="mockup-wrapper">
+
+  <!-- NAV -->
+  <div class="nav section-label" data-label="1 · Nav">
+    <div class="logo">Hey<span>Pearl</span></div>
+    <div class="sticky-cta">Save My Free Seat →</div>
+  </div>
+
+  <!-- ANNOUNCEMENT BANNER -->
+  <div class="announcement section-label" data-label="2 · Date Banner">
+    🎓 FREE Live Masterclass · Thursday, June 5 · 12pm PT / 3pm ET
+  </div>
+
+  <!-- HERO -->
+  <div class="hero section-label" data-label="3 · Hero">
+    <div class="tag">Free Live Training</div>
+    <h1>How to Become the <span>#1 AI-Recommended Agent</span> in Your Market</h1>
+    <p class="subhead">The exact system real estate agents are using to get recommended by ChatGPT, Google AI, and Perplexity — before their competition even knows it's happening.</p>
+
+    <div class="speaker-area">
+      <div class="speaker-photo">
+        <img src="/photos/speaker-audience.jpg" alt="Speaker" onerror="this.style.background='#1a2d50';this.style.display='block'"/>
+      </div>
+      <div class="speaker-details">
+        <div class="title">Hosted by</div>
+        <div class="name">Misti Bruton</div>
+        <div class="cred">Founder, HeyPearl<br/>Helped agents dominate<br/>AI search in 50+ markets</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="cta-primary">SAVE MY FREE SEAT →</div>
+      <br/>
+      <div class="cta-note">100% free · Live only · Limited seats</div>
+    </div>
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div class="countdown section-label" data-label="4 · Countdown">
+    <div class="label">Training starts in</div>
+    <div class="countdown-boxes">
+      <div class="countdown-box">
+        <div class="num">21</div>
+        <div class="unit">Days</div>
+      </div>
+      <div class="colon">:</div>
+      <div class="countdown-box">
+        <div class="num">14</div>
+        <div class="unit">Hours</div>
+      </div>
+      <div class="colon">:</div>
+      <div class="countdown-box">
+        <div class="num">38</div>
+        <div class="unit">Mins</div>
+      </div>
+      <div class="colon">:</div>
+      <div class="countdown-box">
+        <div class="num">52</div>
+        <div class="unit">Secs</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT YOU'LL LEARN -->
+  <div class="learn-section section-label" data-label="5 · Bullet Points">
+    <h2>What You'll Discover in This Free Masterclass</h2>
+    <p class="sub">Exactly what we cover — no fluff, no pitch, just the system.</p>
+
+    <ul class="bullet-list">
+      <li>
+        <div class="icon">🤖</div>
+        <div class="text">Why AI tools are replacing Google — and what that means for your leads
+          <span>ChatGPT, Perplexity, and Google AI Overviews are now where buyers find agents. Most agents are invisible here.</span>
+        </div>
+      </li>
+      <li>
+        <div class="icon">📍</div>
+        <div class="text">The exact formula to show up when buyers ask "who's the best agent in [your city]?"
+          <span>We'll show you the 4 things AI looks for before recommending an agent — and how to hit all 4.</span>
+        </div>
+      </li>
+      <li>
+        <div class="icon">🏆</div>
+        <div class="text">How to claim your market before a competitor does
+          <span>AI can only name one agent per search. We'll show you how to become that agent in your zip code.</span>
+        </div>
+      </li>
+      <li>
+        <div class="icon">📊</div>
+        <div class="text">How to check your current AI Visibility Score — live, on the call
+          <span>We'll run a real audit during the masterclass so you can see exactly where you stand right now.</span>
+        </div>
+      </li>
+      <li>
+        <div class="icon">⚡</div>
+        <div class="text">The done-for-you system that builds your AI presence without you lifting a finger
+          <span>You'll see the full GEO engine: content, citations, Google profile, AI signals — all handled for you.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- SCARCITY -->
+  <div class="scarcity section-label" data-label="6 · Scarcity">
+    <div class="flag">⚠️ Maximum 200 Seats Available</div>
+    <p>This is a live-only training. No replay will be sent. Once seats are gone, they're gone.</p>
+  </div>
+
+  <!-- BOTTOM CTA -->
+  <div class="bottom-cta section-label" data-label="7 · Bottom CTA">
+    <h2>Ready to Become the AI-Recommended Agent in Your Market?</h2>
+    <p>Register below — it's 100% free. Just show up live.</p>
+    <div class="cta-primary" style="display:inline-block;font-size:17px;font-weight:900;background:#E8185C;color:white;padding:16px 40px;border-radius:8px;text-transform:uppercase;letter-spacing:0.5px;box-shadow:0 6px 30px rgba(232,24,92,0.4);">YES — SAVE MY FREE SEAT →</div>
+    <br/><br/>
+    <p style="font-size:12px;color:#94a3b8;">Live training · No replay · Limited availability</p>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer section-label" data-label="8 · Disclaimer">
+    <p>Results mentioned are not typical. Individual results will vary based on market, effort, and existing online presence. This is a live training — no replay will be made available. By registering you agree to our Privacy Policy and Terms of Service.</p>
+  </div>
+
+</div>
+
+<div style="font-family:system-ui,sans-serif;padding:20px 24px;max-width:780px;margin:0 auto;">
+  <p style="font-size:13px;color:#555;margin-bottom:6px;"><strong>Key decisions needed:</strong></p>
+  <ul style="font-size:13px;color:#666;line-height:1.8;padding-left:18px;">
+    <li>Where does this page live? <code>geo.heypearl.io/masterclass</code>?</li>
+    <li>Do you have a real date/time for the masterclass?</li>
+    <li>Does this need a registration form (name + email) or just a Calendly/redirect?</li>
+    <li>Is the speaker you (Misti) or a different presenter?</li>
+  </ul>
+</div>
+
+</body>
+</html>

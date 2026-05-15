@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #F0F2F8; color: #0F1E3A; display: flex; flex-direction: column; }
+
+  .nav { background: #0F1E3A; height: 48px; display: flex; align-items: center; padding: 0 28px; gap: 2px; flex-shrink: 0; }
+  .nav-brand { color: #E8185C; font-weight: 800; font-size: 15px; margin-right: 32px; letter-spacing: -0.02em; }
+  .nav-link { color: #6B85A0; font-size: 13px; padding: 4px 12px; border-radius: 5px; cursor: pointer; }
+  .nav-link.active { color: #fff; font-weight: 600; }
+
+  .page { padding: 16px 28px; display: flex; flex-direction: column; gap: 10px; flex: 1; min-height: 0; }
+
+  /* Page title */
+  .page-header { flex-shrink: 0; }
+  .page-header h1 { font-size: 16px; font-weight: 700; color: #0F1E3A; display: inline; }
+  .page-header p { font-size: 11px; color: #8A9AB5; display: inline; margin-left: 10px; }
+
+  /* Health strip */
+  .health { background: #fff; border: 1px solid #E2E8F2; border-radius: 8px; padding: 8px 16px; display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: #8A9AB5; flex-shrink: 0; }
+  .health-status { color: #16a34a; font-weight: 700; font-size: 11.5px; margin-right: 8px; }
+  .health-dot { width: 3px; height: 3px; border-radius: 50%; background: #CBD5E1; flex-shrink: 0; }
+  .health strong { color: #0F1E3A; font-weight: 600; }
+  .health-link { margin-left: auto; color: #9BACC0; font-size: 11px; cursor: pointer; }
+
+  /* Stat strip */
+  .stat-strip { background: #fff; border: 1px solid #E2E8F2; border-radius: 8px; display: flex; overflow: hidden; flex-shrink: 0; }
+  .stat-item { flex: 1; padding: 12px 18px; border-right: 1px solid #E2E8F2; cursor: pointer; transition: background 0.1s; }
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { background: #F8FAFD; }
+  .stat-lbl { font-size: 9.5px; color: #8A9AB5; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; margin-bottom: 5px; }
+  .stat-val { font-size: 22px; font-weight: 800; line-height: 1; color: #0F1E3A; }
+  .stat-sub { font-size: 9.5px; color: #B0BDD0; margin-top: 3px; }
+
+  /* Sources strip — same style as stat strip but smaller numbers */
+  .src-strip { background: #fff; border: 1px solid #E2E8F2; border-radius: 8px; display: flex; overflow: hidden; flex-shrink: 0; }
+  .src-item { flex: 1; padding: 10px 18px; border-right: 1px solid #E2E8F2; cursor: pointer; transition: background 0.1s; display: flex; align-items: center; gap: 14px; }
+  .src-item:last-child { border-right: none; }
+  .src-item:hover { background: #F8FAFD; }
+  .src-name-lbl { font-size: 11px; font-weight: 600; color: #0F1E3A; white-space: nowrap; }
+  .src-stats { display: flex; gap: 14px; }
+  .src-stat { text-align: center; }
+  .src-stat .n { font-size: 16px; font-weight: 800; line-height: 1; }
+  .src-stat .l { font-size: 9px; color: #8A9AB5; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  /* Two-col fills remaining space */
+  .two-col { display: grid; grid-template-columns: 1fr 1.6fr; gap: 12px; flex: 1; min-height: 0; }
+
+  /* Panel fills height */
+  .panel-wrap { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+  .sec-hd { font-size: 9.5px; color: #8A9AB5; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+  .sec-hd a { color: #E8185C; font-size: 10px; cursor: pointer; text-transform: none; letter-spacing: 0; font-weight: 500; }
+
+  .panel { background: #fff; border: 1px solid #E2E8F2; border-radius: 8px; overflow: hidden; flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
+  /* Appointments */
+  .appt-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid #F0F3F9; cursor: pointer; transition: background 0.1s; }
+  .appt-row:hover { background: #F8FAFD; }
+  .appt-name { font-size: 12px; font-weight: 600; color: #0F1E3A; }
+  .appt-email { font-size: 10px; color: #8A9AB5; margin-top: 1px; }
+  .appt-when { font-size: 10.5px; font-weight: 600; color: #4A56C9; white-space: nowrap; }
+  .appt-empty { padding: 16px; font-size: 11px; color: #B0BDD0; text-align: center; flex: 1; display: flex; align-items: center; justify-content: center; }
+
+  /* Hot leads */
+  .hot-head { display: grid; grid-template-columns: 1fr 52px 100px; padding: 8px 16px; background: #F8FAFD; border-bottom: 1px solid #E2E8F2; flex-shrink: 0; }
+  .hot-head span { font-size: 9.5px; color: #8A9AB5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+  .hot-row { display: grid; grid-template-columns: 1fr 52px 100px; padding: 10px 16px; border-bottom: 1px solid #F0F3F9; align-items: center; cursor: pointer; transition: background 0.1s; }
+  .hot-row:hover { background: #F8FAFD; }
+  .hot-email { font-size: 11.5px; font-weight: 500; color: #0F1E3A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hot-more { padding: 10px 16px; font-size: 11px; color: #8A9AB5; text-align: center; background: #F8FAFD; border-top: 1px solid #F0F3F9; cursor: pointer; margin-top: auto; flex-shrink: 0; }
+  .hot-more:hover { color: #E8185C; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <span class="nav-brand">GEO Admin</span>
+  <span class="nav-link active">Activity</span>
+  <span class="nav-link">Leads</span>
+  <span class="nav-link">Campaigns</span>
+  <span class="nav-link">Calls</span>
+</div>
+
+<div class="page">
+
+  <div class="page-header">
+    <h1>Activity</h1>
+    <p>What's happening and what needs your attention.</p>
+  </div>
+
+  <!-- Health -->
+  <div class="health">
+    <span class="health-status">✅ Email Healthy</span>
+    <span class="health-dot"></span>
+    <span>Queue: <strong>2,802</strong> pending</span>
+    <span class="health-dot"></span>
+    <span>Bounces (24h): <strong>0</strong></span>
+    <span class="health-dot"></span>
+    <span>Complaints (24h): <strong>0</strong></span>
+    <a class="health-link">Details →</a>
+  </div>
+
+  <!-- Stats -->
+  <div class="stat-strip">
+    <div class="stat-item">
+      <div class="stat-lbl">New Leads</div>
+      <div class="stat-val" style="color:#E8185C">3</div>
+      <div class="stat-sub">↗ Last 7 days</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-lbl">Emails Sent</div>
+      <div class="stat-val">12</div>
+      <div class="stat-sub">↗ View log</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-lbl">Hot Leads</div>
+      <div class="stat-val" style="color:#ea580c">47</div>
+      <div class="stat-sub">↗ Reach out today</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-lbl">Open Rate</div>
+      <div class="stat-val" style="color:#16a34a">47%</div>
+      <div class="stat-sub">unique · 30-day avg</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-lbl">Needs Action</div>
+      <div class="stat-val" style="font-size:14px;padding-top:5px;color:#16a34a">All clear ✓</div>
+      <div class="stat-sub">No pending outcomes</div>
+    </div>
+  </div>
+
+  <!-- Sources — horizontal strip matching stat style -->
+  <div class="src-strip">
+    <div class="src-item">
+      <div class="src-name-lbl">Audit (/score)</div>
+      <div class="src-stats">
+        <div class="src-stat"><div class="n">24</div><div class="l">Leads</div></div>
+        <div class="src-stat"><div class="n" style="color:#16a34a">4</div><div class="l">Booked</div></div>
+        <div class="src-stat"><div class="n" style="color:#d97706">17%</div><div class="l">Conv.</div></div>
+      </div>
+    </div>
+    <div class="src-item">
+      <div class="src-name-lbl">Claim Form</div>
+      <div class="src-stats">
+        <div class="src-stat"><div class="n">5</div><div class="l">Leads</div></div>
+        <div class="src-stat"><div class="n" style="color:#16a34a">1</div><div class="l">Booked</div></div>
+        <div class="src-stat"><div class="n" style="color:#d97706">20%</div><div class="l">Conv.</div></div>
+      </div>
+    </div>
+    <div class="src-item">
+      <div class="src-name-lbl">Calendly</div>
+      <div class="src-stats">
+        <div class="src-stat"><div class="n">5</div><div class="l">Leads</div></div>
+        <div class="src-stat"><div class="n" style="color:#16a34a">5</div><div class="l">Booked</div></div>
+        <div class="src-stat"><div class="n" style="color:#16a34a">100%</div><div class="l">Conv.</div></div>
+      </div>
+    </div>
+    <div class="src-item">
+      <div class="src-name-lbl">Import</div>
+      <div class="src-stats">
+        <div class="src-stat"><div class="n">8</div><div class="l">Leads</div></div>
+        <div class="src-stat"><div class="n" style="color:#8A9AB5">0</div><div class="l">Booked</div></div>
+        <div class="src-stat"><div class="n" style="color:#8A9AB5">0%</div><div class="l">Conv.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upcoming + Hot Leads filling remainder -->
+  <div class="two-col">
+
+    <div class="panel-wrap">
+      <div class="sec-hd"><span>Upcoming Appointments</span></div>
+      <div class="panel">
+        <div class="appt-row">
+          <div>
+            <div class="appt-name">Timothy</div>
+            <div class="appt-email">bowenregroup@gmail.com</div>
+          </div>
+          <div class="appt-when">Tomorrow 9am</div>
+        </div>
+        <div class="appt-empty">No other upcoming appointments</div>
+      </div>
+    </div>
+
+    <div class="panel-wrap">
+      <div class="sec-hd">
+        <span>🔥 Hot Leads <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#B0BDD0">2+ clicks · not booked</span></span>
+        <a>View all 47 →</a>
+      </div>
+      <div class="panel">
+        <div class="hot-head">
+          <span>Email</span><span>Clicks</span><span>Series</span>
+        </div>
+        <div class="hot-row">
+          <div class="hot-email">lwaxter@piattsir.com</div>
+          <div style="color:#ea580c;font-weight:700;font-size:11.5px">9 🔥</div>
+          <div style="color:#E8185C;font-size:10.5px;text-decoration:underline;cursor:pointer">lead_nurture →</div>
+        </div>
+        <div class="hot-row">
+          <div class="hot-email">tammiem@johnlscott.com</div>
+          <div style="color:#ea580c;font-weight:700;font-size:11.5px">9 🔥</div>
+          <div style="color:#E8185C;font-size:10.5px;text-decoration:underline;cursor:pointer">lead_nurture →</div>
+        </div>
+        <div class="hot-row">
+          <div class="hot-email">amccarley@xperthomelending.com</div>
+          <div style="color:#ea580c;font-weight:700;font-size:11.5px">6 🔥</div>
+          <div style="color:#E8185C;font-size:10.5px;text-decoration:underline;cursor:pointer">lead_nurture →</div>
+        </div>
+        <div class="hot-row">
+          <div class="hot-email">scott@louisvillerealestate.com</div>
+          <div style="color:#f97316;font-weight:700;font-size:11.5px">4</div>
+          <div style="color:#E8185C;font-size:10.5px;text-decoration:underline;cursor:pointer">lead_nurture →</div>
+        </div>
+        <div class="hot-row">
+          <div class="hot-email">hmorales@compass.com</div>
+          <div style="color:#f97316;font-weight:700;font-size:11.5px">3</div>
+          <div style="color:#E8185C;font-size:10.5px;text-decoration:underline;cursor:pointer">lead_nurture →</div>
+        </div>
+        <div class="hot-row">
+          <div class="hot-email">jenna@realtybyjenna.com</div>
+          <div style="color:#f97316;font-weight:700;font-size:11.5px">3</div>
+          <div style="color:#E8185C;font-size:10.5px;text-decoration:underline;cursor:pointer">long_term_nurture →</div>
+        </div>
+        <div class="hot-more">+ 41 more · click to view all</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

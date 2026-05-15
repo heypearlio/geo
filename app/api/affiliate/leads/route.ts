@@ -1,0 +1,176 @@
+import { NextRequest, NextResponse } from "next/server";
+import { getAffiliateFromRequest } from "../../../../lib/affiliate";
+import { supabase, tagLead } from "../../../../lib/resend";
+
+// POST — manually add a single lead to this affiliate's dashboard
+export async function POST(req: NextRequest) {
+  const affiliate = await getAffiliateFromRequest(req);
+  if (!affiliate) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const body = await req.json() as { email?: string; first_name?: string; phone?: string; city?: string; campaign_id?: string };
+  const email      = body.email?.trim().toLowerCase() ?? "";
+  const firstName  = body.first_name?.trim() ?? "";
+  const phone      = body.phone?.trim() ?? "";
+  const city       = body.city?.trim() ?? "";
+  const campaignId = body.campaign_id?.trim() ?? "";
+
+  if (!email || !email.includes("@")) {
+    return NextResponse.json({ error: "Valid email is required" }, { status: 400 });
+  }
+
+  // Tag the lead — this is all that's needed for them to appear in /leads
+  await tagLead(email, affiliate.tag);
+
+  // Store name + phone in local_lead_status so they show up in the enriched lead list
+  if (firstName || phone) {
+    await supabase.from("local_lead_status").upsert(
+      { affiliate_id: affiliate.id, email, first_name: firstName || null, phone: phone || null, status: "active" },
+      { onConflict: "affiliate_id,email" }
+    );
+  }
+
+  // If a campaign was selected, push to Instantly for outreach
+  if (campaignId) {
+    const apiKey = process.env.INSTANTLY_API_KEY;
+    if (apiKey) {
+      const lead: Record<string, unknown> = {
+        email,
+        ...(firstName ? { first_name: firstName } : {}),
+        ...(phone ? { phone } : {}),
+        custom_variables: {
+          client_slug:     affiliate.tag,
+          offer:           "affiliate",
+          sender_name:     affiliate.name,
+          sender_email:    affiliate.email    ?? "",
+          sender_phone:    affiliate.phone    ?? "",
+          sender_calendly: affiliate.calendly_url ?? "",
+          ...(city ? { city } : {}),
+        },
+      };
+      await fetch("https://api.instantly.ai/api/v2/leads", {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ campaign_id: campaignId, leads: [lead] }),
+      });
+    }
+  }
+
+  return NextResponse.json({ ok: true });
+}
+
+export async function GET(req: NextRequest) {
+  const affiliate = await getAffiliateFromRequest(req);
+  if (!affiliate) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const url = req.nextUrl;
+  const search = url.searchParams.get("search") ?? "";
+  const page = parseInt(url.searchParams.get("page") ?? "1", 10);
+  const statusFilter = url.searchParams.get("status") ?? "";
+  const sortCol = url.searchParams.get("sort_col") ?? "created_at";
+  const sortDir = url.searchParams.get("sort_dir") ?? "desc";
+  const ascending = sortDir === "asc";
+  const pageSize = 50;
+  const offset = (page - 1) * pageSize;
+
+  // Only these columns exist on geo_lead_tags and can be sorted server-side.
+  // first_name, business_type, status come from enrichment queries — they sort within-page only.
+  const dbSortCol = ["created_at", "email"].includes(sortCol) ? sortCol : "created_at";
+
+  // Pre-resolve status filter against local_lead_status BEFORE paginating.
+  // Filtering after pagination means leads on page 2+ are never checked — so filter buttons
+  // appear broken when matching leads don't happen to land on the current page.
+  let emailAllowList: string[] | null = null; // if set, restrict to these emails only
+  let emailBlockList: string[] = [];          // if non-empty, exclude these emails
+
+  if (statusFilter === "active") {
+    // "Active" = no non-active override in local_lead_status
+    const { data: overridden } = await supabase
+      .from("local_lead_status")
+      .select("email")
+      .eq("affiliate_id", affiliate.id)
+      .neq("status", "active");
+    emailBlockList = (overridden ?? []).map(r => r.email);
+  } else if (statusFilter) {
+    const { data: statusRows } = await supabase
+      .from("local_lead_status")
+      .select("email")
+      .eq("affiliate_id", affiliate.id)
+      .eq("status", statusFilter);
+    emailAllowList = (statusRows ?? []).map(r => r.email);
+    if (emailAllowList.length === 0) {
+      return NextResponse.json({ leads: [], total: 0, page, pageSize });
+    }
+  }
+
+  // geo_lead_tags is the universal source for ALL offers (geo, v2, local, etc.)
+  let query = supabase
+    .from("geo_lead_tags")
+    .select("id, email, created_at", { count: "exact" })
+    .eq("tag", affiliate.tag)
+    .order(dbSortCol, { ascending })
+    .range(offset, offset + pageSize - 1);
+
+  if (search) {
+    query = query.ilike("email", `%${search}%`);
+  }
+  if (emailAllowList !== null) {
+    query = query.in("email", emailAllowList);
+  }
+  if (emailBlockList.length > 0) {
+    query = query.not("email", "in", `(${emailBlockList.join(",")})`);
+  }
+
+  const { data: taggedLeads, error, count } = await query;
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  const emails = (taggedLeads ?? []).map(r => r.email);
+  if (emails.length === 0) {
+    return NextResponse.json({ leads: [], total: count ?? 0, page, pageSize });
+  }
+
+  // Enrich: pull name, business type, and status in parallel
+  const [{ data: nameRows }, { data: localRows }, { data: statusRows }] = await Promise.all([
+    // first_name from email queue — one per email, first non-null found
+    supabase
+      .from("geo_email_queue")
+      .select("email, first_name")
+      .in("email", emails)
+      .not("first_name", "is", null),
+
+    // business_type from local submissions — only exists for local offer leads
+    supabase
+      .from("geo_local_submissions")
+      .select("email, business_type")
+      .in("email", emails),
+
+    // manual status overrides (met, no_show, client, etc.) — affiliate-specific
+    supabase
+      .from("local_lead_status")
+      .select("email, status, first_name, phone")
+      .eq("affiliate_id", affiliate.id)
+      .in("email", emails),
+  ]);
+
+  // Build lookup maps
+  const nameMap = new Map<string, string>();
+  for (const r of nameRows ?? []) {
+    if (!nameMap.has(r.email) && r.first_name) nameMap.set(r.email, r.first_name);
+  }
+  const localMap = new Map((localRows ?? []).map(r => [r.email, r.business_type as string | null]));
+  const statusMap = new Map((statusRows ?? []).map(r => [r.email, r]));
+
+  const leads = (taggedLeads ?? []).map(r => {
+    const s = statusMap.get(r.email);
+    return {
+      id: r.id,
+      email: r.email,
+      created_at: r.created_at,
+      first_name: s?.first_name ?? nameMap.get(r.email) ?? null,
+      business_type: localMap.get(r.email) ?? null,
+      phone: s?.phone ?? null,
+      status: s?.status ?? "active",
+    };
+  });
+
+  return NextResponse.json({ leads, total: count ?? 0, page, pageSize });
+}

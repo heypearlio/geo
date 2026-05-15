@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEO Free Workshop — heypearl.io/workshop</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Montserrat', Arial, sans-serif; background: white; color: #1a1a1a; }
+  .top-banner { background: #0F1E3A; color: white; text-align: center; padding: 11px 20px; font-size: 14px; font-weight: 700; }
+  .hero { position: relative; text-align: center; padding: 52px 24px 56px; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center top; }
+  .hero-bg::after { content: ''; position: absolute; inset: 0; background: rgba(15,30,58,0.72); }
+  .hero-content { position: relative; z-index: 2; }
+  .cd-row { display: flex; justify-content: center; align-items: flex-end; gap: 4px; margin-bottom: 26px; }
+  .cd-unit { text-align: center; }
+  .cd-num { font-size: 60px; font-weight: 900; color: white; line-height: 1; font-variant-numeric: tabular-nums; min-width: 68px; }
+  .cd-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.55); margin-top: 4px; }
+  .cd-col { font-size: 52px; font-weight: 900; color: rgba(255,255,255,0.5); padding-bottom: 12px; line-height: 1; }
+  .hero-h1 { font-size: clamp(23px, 3.8vw, 34px); font-weight: 900; color: white; line-height: 1.18; max-width: 740px; margin: 0 auto 24px; }
+  .live-tag { color: #E8185C; }
+  .tz-block { margin: 0 auto 30px; text-align: center; }
+  .tz-date { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .tz-list { list-style: none; }
+  .tz-list li { font-size: 15px; line-height: 1.9; }
+  .tz-list li strong { font-weight: 800; }
+  .tz-white .tz-date { color: white; }
+  .tz-white .tz-list li { color: rgba(255,255,255,0.9); }
+  .tz-white .tz-list li strong { color: white; }
+  .tz-dark .tz-date { color: #1a1a1a; }
+  .tz-dark .tz-list li { color: #1a1a1a; }
+  .btn-main { display: inline-block; background: #0F1E3A; color: white; font-size: 17px; font-weight: 800; padding: 18px 52px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; line-height: 1.2; border: 2px solid rgba(255,255,255,0.2); }
+  .btn-main small { display: block; font-size: 12px; font-weight: 600; margin-top: 4px; text-transform: none; opacity: 0.75; }
+  .section-bar { background: #0F1E3A; color: white; text-align: center; padding: 18px 24px; font-size: clamp(19px,2.8vw,26px); font-weight: 800; border-radius: 10px; margin: 0 24px 36px; }
+  .pillars { background: white; padding: 44px 0 52px; }
+  .two-col { display: flex; gap: 36px; max-width: 900px; margin: 0 auto; padding: 0 24px; align-items: flex-start; }
+  @media(max-width:640px){ .two-col { flex-direction: column; } }
+  .col-photo { flex: 0 0 260px; }
+  .col-photo img { width: 100%; border-radius: 8px; display: block; max-height: 360px; object-fit: cover; object-position: top; }
+  .col-text { flex: 1; padding-top: 4px; }
+  .check-list { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+  .check-item { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; color: #1a1a1a; line-height: 1.62; }
+  .ck { font-size: 15px; font-weight: 900; color: #1a1a1a; flex-shrink: 0; margin-top: 2px; }
+  .bl { font-weight: 800; }
+  .bl.pink { color: #E8185C; }
+  .check-item u { font-weight: 700; text-decoration: underline; }
+  .bonuses { background: white; padding: 44px 0 52px; }
+  .bonus-list { list-style: none; max-width: 860px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 20px; }
+  .bonus-item { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; color: #1a1a1a; line-height: 1.62; }
+  .save { position: relative; text-align: center; padding: 60px 24px; overflow: hidden; }
+  .save-bg { position: absolute; inset: 0; background-size: cover; background-position: center top; filter: brightness(0.3) blur(3px); transform: scale(1.06); }
+  .save-content { position: relative; z-index: 2; }
+  .save h2 { font-size: clamp(26px,4vw,38px); font-weight: 900; color: white; margin-bottom: 10px; }
+  .save .save-sub { font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.85); margin-bottom: 26px; max-width: 560px; margin-left: auto; margin-right: auto; }
+  .disclaimer { background: #111827; padding: 26px 28px; }
+  .disclaimer p { color: rgba(255,255,255,0.33); font-size: 10.5px; line-height: 1.8; max-width: 860px; margin: 0 auto 10px; }
+  .disclaimer p strong { font-weight: 800; color: rgba(255,255,255,0.5); text-transform: uppercase; font-size: 10px; letter-spacing: 0.5px; }
+  .disclaimer a { color: rgba(255,255,255,0.45); }
+</style>
+</head>
+<body>
+<div class="top-banner">Free Live Workshop on AI Visibility for Real Estate Agents</div>
+<div class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-content">
+    <div class="cd-row">
+      <div class="cd-unit"><div class="cd-num" id="h">00</div><div class="cd-lbl">Hour</div></div>
+      <div class="cd-col">:</div>
+      <div class="cd-unit"><div class="cd-num" id="m">00</div><div class="cd-lbl">Minute</div></div>
+      <div class="cd-col">:</div>
+      <div class="cd-unit"><div class="cd-num" id="s">00</div><div class="cd-lbl">Second</div></div>
+    </div>
+    <h1 class="hero-h1"><span class="live-tag">LIVE:</span> Clone The Exact System I'm Using to Get Recommended by AI — and Generate Qualified Buyer Leads Without Spending a Dollar on Ads</h1>
+    <div class="tz-block tz-white">
+      <div class="tz-date">Weekly Live Workshop</div>
+      <ul class="tz-list">
+        <li><strong>Pacific Time:</strong> 12PM</li>
+        <li><strong>Mountain Time:</strong> 1PM</li>
+        <li><strong>Central Time:</strong> 2PM</li>
+        <li><strong>Eastern Time:</strong> 3PM</li>
+      </ul>
+    </div>
+    <div class="btn-main">RSVP &amp; SIGN UP<small>+ Get Your Free AI Visibility Score Instantly</small></div>
+  </div>
+</div>
+<div class="pillars">
+  <div class="section-bar">Wondering What You're Going To See?</div>
+  <div class="two-col">
+    <div class="col-photo"><img id="bioImg" src="" alt="Misti Bruton — GEO Workshop" /></div>
+    <div class="col-text">
+      <ul class="check-list">
+        <li class="check-item"><span class="ck">✓</span><span><span class="bl pink">REVEALED:</span> The exact signals ChatGPT, Google AI, and Perplexity use to decide which agent to recommend — without dancing, paying for ads, or cold calling — in some of the most competitive real estate markets in the country.</span></li>
+        <li class="check-item"><span class="ck">✓</span><span>How I built the GEO system and helped agents in 50+ markets become the AI-recommended agent in their city. <u>I'll help you clone it too.</u></span></li>
+        <li class="check-item"><span class="ck">✓</span><span><span class="bl pink">LIVE:</span> How to get AI tools recommending you for <u>2–5 qualified buyer leads a day</u> — even if you have zero online presence right now or feel like you're late to the game.</span></li>
+        <li class="check-item"><span class="ck">✓</span><span>How to lock down your market before a competitor does — and why the agents who move first <u>lock out everyone else permanently and close more deals.</u></span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="bonuses">
+  <div class="section-bar">Attend The Live Workshop &amp; Get These Bonuses</div>
+  <ul class="bonus-list">
+    <li class="bonus-item"><span class="ck">✓</span><span><span class="bl">Free AI Visibility Score Report:</span> See exactly how ChatGPT, Google AI, and Perplexity rank you in your market right now — instant, personalized, delivered the moment you register.</span></li>
+    <li class="bonus-item"><span class="ck">✓</span><span><span class="bl">The AI Visibility Checklist PDF:</span> The 22-point checklist every agent needs to show up in AI search results — covering every platform buyers use to find agents right now.</span></li>
+    <li class="bonus-item"><span class="ck">✓</span><span><span class="bl">Market Availability Check:</span> Find out instantly if your zip code is still open — or if a competitor has already locked it down. One agent per market. First come, first served.</span></li>
+    <li class="bonus-item"><span class="ck">✓</span><span><span class="bl">The "Show Up First" Swipe File:</span> Copy-paste content that trains AI tools to recommend you over every other agent in your area.</span></li>
+    <li class="bonus-item"><span class="ck">✓</span><span><span class="bl">Live Market Audit During the Workshop:</span> We pull your actual AI Visibility Score live on the call — real data, your specific market, right on screen.</span></li>
+  </ul>
+</div>
+<div class="save">
+  <div class="save-bg" id="saveBg"></div>
+  <div class="save-content">
+    <h2>Save Your Seat Now</h2>
+    <div class="save-sub">There Will Be A Maximum Limit Of 200 Seats To Maintain High Quality</div>
+    <div class="tz-block tz-white" style="margin-bottom:28px;">
+      <div class="tz-date">Weekly Live Workshop</div>
+      <ul class="tz-list">
+        <li><strong>Pacific Time:</strong> 12PM</li>
+        <li><strong>Mountain Time:</strong> 1PM</li>
+        <li><strong>Central Time:</strong> 2PM</li>
+        <li><strong>Eastern Time:</strong> 3PM</li>
+      </ul>
+    </div>
+    <div class="btn-main">RSVP &amp; SIGN UP<small>+ Get Your Free AI Visibility Score Instantly</small></div>
+  </div>
+</div>
+<div class="disclaimer">
+  <p><strong>Disclaimer:</strong> HeyPearl's workshops are live events with no replays. Results are not typical. Individual results will vary based on market conditions, existing online presence, effort, and skill. The strategies discussed are for educational purposes only.</p>
+  <p><strong>Live Only Disclaimer:</strong> There are no replays. No recordings. If you miss it — you miss it. By registering you agree to receive communications from HeyPearl. You may unsubscribe at any time. <a href="/privacy">Privacy Policy</a> · <a href="#">Terms of Service</a></p>
+</div>
+<script>
