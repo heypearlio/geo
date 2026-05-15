@@ -314,6 +314,25 @@ async function handleSignup(e) {
   var name  = document.getElementById('modal-name').value.trim();
   var email = document.getElementById('modal-email').value.trim();
   var phone = document.getElementById('modal-phone').value.trim();
+  try {
+    var res = await fetch('/api/live/rsvp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ first_name: name, email: email, phone: phone, source: 'live' })
+    });
+    var data = await res.json().catch(function(){ return {}; });
+    if (!res.ok || !data.ok) {
+      btn.textContent = 'RSVP \\u0026 SIGN UP \\u2192';
+      btn.disabled = false;
+      alert(data.error || 'Something went wrong. Please try again.');
+      return;
+    }
+  } catch (err) {
+    btn.textContent = 'RSVP \\u0026 SIGN UP \\u2192';
+    btn.disabled = false;
+    alert('Could not save your seat. Please try again.');
+    return;
+  }
   fetch('https://pearlos.ai/api/public/lead-capture', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

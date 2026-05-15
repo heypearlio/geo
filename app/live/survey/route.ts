@@ -292,6 +292,30 @@ export async function GET() {
     var ta3 = document.getElementById('a3');
     answers.a3 = ta3 ? ta3.value.trim() : '';
 
+    try {
+      var res = await fetch('/api/live/survey', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: regEmail,
+          name: regName,
+          q1: answers.a1,
+          q2: answers.a2,
+          q3: answers.a3
+        })
+      });
+      var data = await res.json().catch(function(){ return {}; });
+      if (!res.ok || !data.ok) {
+        if (btn) { btn.textContent = 'Submit'; btn.disabled = false; }
+        alert(data.error || 'Could not submit. Please try again.');
+        return;
+      }
+    } catch (err) {
+      if (btn) { btn.textContent = 'Submit'; btn.disabled = false; }
+      alert('Could not submit. Please try again.');
+      return;
+    }
+
     fetch('https://pearlos.ai/api/public/workshop-survey', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
